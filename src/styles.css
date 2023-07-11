@@ -1,4 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
-@import "assets/css/styles.css";
-@import 'simplebar';
-@import 'simplebar/dist/simplebar.css';
+@import 'assets/css/bootstrap1.min.css';
+@import 'assets/css/metisMenu.css';
+@import "assets/css/style.css";
+@import "assets/vendors/font_awesome/css/all.min.css";
+
+html, body {
+  height: 100%;
+}
+
+.table {
+  font-family: comfortaa, cursive;
+}
+
+:root {
+  --mdc-typography-font-family: comfortaa, cursive !important;;
+}

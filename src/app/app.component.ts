@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {DataHandlerService} from "./service/data-handler.service";
+import {Goal} from "./model/Goal";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ResultRushFrontEnd';
+  goals: Goal[] = [];
+
+  constructor(private dataHandler: DataHandlerService) {
+    this.dataHandler.getAllGoals().subscribe(goals => this.goals = goals);
+  }
 }

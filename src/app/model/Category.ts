@@ -1,10 +1,12 @@
-export class Category{
-  categoryId: number;
-  name: string;
+export class Category {
+  id: number;
+  title: string;
+  color: string;
 
-  constructor(categoryId: number, name: string) {
-    this.categoryId = categoryId;
-    this.name = name;
+  constructor(id: number, title: string, color: string) {
+    this.id = id;
+    this.title = title;
+    this.color = color;
   }
 }
 

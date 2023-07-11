@@ -1,12 +1,10 @@
 export class Priority {
-  priorityId: number;
-  name: string;
-  color: string;
+  id: number;
+  title: string;
 
-  constructor(priorityId: number, name: string, color: string) {
-    this.priorityId = priorityId;
-    this.name = name;
-    this.color = color;
+  constructor(priorityId: number, title: string) {
+    this.id = priorityId;
+    this.title = title;
   }
 }
 
