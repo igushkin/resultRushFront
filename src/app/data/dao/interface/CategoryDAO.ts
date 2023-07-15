@@ -1,11 +1,14 @@
 import {Category} from '../../../model/Category';
 import {CommonDAO} from './CommonDAO';
 import {Observable} from 'rxjs';
+import {CategoryStat} from "../../../model/CategoryStat";
+
 
 // специфичные методы для работы с категориями (которые не входят в обычный CRUD)
 export interface CategoryDAO extends CommonDAO<Category> {
 
-    // поиск категорий по названию
-    search(title: string): Observable<Category[]>;
+  // поиск категорий по названию
+  search(title: string): Observable<Category[]>;
 
+  getCategoryStat(): Observable<Map<number, CategoryStat>>;
 }

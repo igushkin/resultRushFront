@@ -7,17 +7,23 @@ import {GoalDAO} from "../interface/GoalDAO";
 
 export class GoalDAOArray implements GoalDAO {
 
+  static test(): Observable<Goal[]> {
+    return of(TestData.goals);
+  }
+
   getAll(): Observable<Goal[]> {
     return of(TestData.goals);
   }
 
   get(id: number): Observable<Goal> {
-    return EMPTY;
+    let goal = TestData.goals.find(x => x.id == id);
+    return goal ? of(goal) : EMPTY;
   }
 
 
   add(goal: Goal): Observable<Goal> {
-    return EMPTY;
+    TestData.goals.push(goal);
+    return of(goal);
   }
 
   delete(id: number): Observable<Goal> {
@@ -32,20 +38,30 @@ export class GoalDAOArray implements GoalDAO {
     return of(goalTmp);
   }
 
-  getCompletedCountInCategory(category: Category): Observable<number> {
-    return EMPTY;
-  }
-
+  // Get total stat
   getTotalCount(): Observable<number> {
-    return EMPTY;
+    return of(TestData.goals.length);
   }
 
+  getTotalCompletedCount(): Observable<number> {
+    return of(TestData.goals.filter(x => x.isCompleted).length);
+  }
+
+  getTotalUncompletedCount(): Observable<number> {
+    return of(TestData.goals.filter(x => !x.isCompleted).length);
+  }
+
+  // Get category stat
   getTotalCountInCategory(category: Category): Observable<number> {
-    return EMPTY;
+    return of(TestData.goals.filter(x => x.category && x.category.id == category.id).length);
+  }
+
+  getCompletedCountInCategory(category: Category): Observable<number> {
+    return of(TestData.goals.filter(x => x.category && x.category.id == category.id && x.isCompleted).length);
   }
 
   getUncompletedCountInCategory(category: Category): Observable<number> {
-    return EMPTY;
+    return of(TestData.goals.filter(x => x.category && x.category.id == category.id && !x.isCompleted).length);
   }
 
   // поиск задач по параметрам
@@ -64,13 +80,13 @@ export class GoalDAOArray implements GoalDAO {
     return allGoals; // отфильтрованный массив
   }
 
-  update(Goal: Goal): Observable<Goal> {
-    let goalTmp = TestData.goals.find(t => t.id === Goal.id); // обновляем по id
+  update(goal: Goal): Observable<Goal> {
+    let goalTmp = TestData.goals.find(t => t.id === goal.id); // обновляем по id
     if (goalTmp == null) {
       return EMPTY;
     }
     let index = TestData.goals.indexOf(goalTmp);
-    TestData.goals.splice(index, 1, Goal);
-    return of(Goal);
+    TestData.goals.splice(index, 1, goal);
+    return of(goal);
   }
 }

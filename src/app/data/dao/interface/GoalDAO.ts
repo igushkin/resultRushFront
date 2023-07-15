@@ -23,4 +23,7 @@ export interface GoalDAO extends CommonDAO<Goal> {
   // кол-во всех задач в общем
   getTotalCount(): Observable<number>;
 
+  getTotalCompletedCount(): Observable<Number>;
+
+  getTotalUncompletedCount(): Observable<Number>;
 }

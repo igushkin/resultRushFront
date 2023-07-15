@@ -9,12 +9,12 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog
 
 @Component({
   selector: 'app-edit-goal-dialog',
-  templateUrl: './edit-goal-dialog.component.html',
-  styleUrls: ['./edit-goal-dialog.component.css']
+  templateUrl: './goal-dialog.component.html',
+  styleUrls: ['./goal-dialog.component.css']
 })
 
 // редактирование/создание задачи
-export class EditGoalDialogComponent implements OnInit {
+export class GoalDialogComponent implements OnInit {
   categories: Category[];
   priorities: Priority[];
   dialogTitle: string; // заголовок окна
@@ -24,12 +24,12 @@ export class EditGoalDialogComponent implements OnInit {
   // чтобы изменения не сказывались на самой задаче и можно было отменить изменения
   tmpTitle: string;
   tmpDescription: string;
-  tmpPriority: Priority;
-  tmpCategory: Category;
-  tmpDate: Date;
+  tmpPriority?: Priority;
+  tmpCategory?: Category;
+  tmpDate?: Date;
 
   constructor(
-    private dialogRef: MatDialogRef<EditGoalDialogComponent>, // // для возможности работы с текущим диалог. окном
+    private dialogRef: MatDialogRef<GoalDialogComponent>, // // для возможности работы с текущим диалог. окном
     @Inject(MAT_DIALOG_DATA) private data: [Goal, string], // данные, которые передали в диалоговое окно
     private dataHandler: DataHandlerService, // ссылка на сервис для работы с данными
     private dialog: MatDialog // для открытия нового диалогового окна (из текущего) - например для подтверждения удаления
@@ -82,7 +82,6 @@ export class EditGoalDialogComponent implements OnInit {
   delete() {
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      maxWidth: '500px',
       data: {
         dialogTitle: 'Подтвердите действие',
         message: `Вы действительно хотите удалить задачу: "${this.originalGoal.title}"?`

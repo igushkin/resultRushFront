@@ -1,219 +1,173 @@
-<!--<div class="col-lg-12">
-  <div class="white_card card_height_100 mb_30">
-    <div class="white_card_header">
-      <div class="box_header m-0">
-        <div class="main-title">
-          <h3 class="m-0">Data table</h3>
-        </div>
+<div class="QA_table white_card card_height_100 mb_30">
+  <div class="white_card_header row">
+    <div class="box_header m-0">
+      <div class="main-title">
+        <h3 class="m-0">Goals table</h3>
       </div>
-    </div>
-    <div class="white_card_body">
-      <div class="QA_section">
-        <div class="white_box_tittle list_header">
-          <h4>Table</h4>
-          <div class="box_right d-flex lms_block">
-            <div class="serach_field_2">
-              <div class="search_inner">
-                <form active="#">
-                  <div class="search_field">
-                    <input type="text" placeholder="Search content here...">
-                  </div>
-                  <button type="submit"><i class="ti-search"></i></button>
-                </form>
-              </div>
-            </div>
-            <div class="add_button ms-2">
-              <a href="data_table.html#" data-bs-toggle="modal" data-bs-target="#addcategory" class="btn_1">Add New</a>
-            </div>
-          </div>
-        </div>
-        <div class="QA_table mb_30">
-
-          <table class="table lms_table_active ">
-            <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Title</th>
-              <th scope="col">Category</th>
-              <th scope="col">Priority</th>
-              <th scope="col">Deadline</th>
-              <th scope="col">Progress</th>
-              <th scope="col">Status</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <th scope="row"><a href="data_table.html#" class="question_content">1</a></th>
-              <td>Find a girlfriend</td>
-              <td>Family</td>
-              <td><a href="#" class="status_btn">Important</a></td>
-              <td>26.05.2024</td>
-              <td>8/10</td>
-              <td>In progress</td>
-            </tr>
-            <tr>
-              <th scope="row"><a href="data_table.html#" class="question_content">1</a></th>
-              <td>Find a girlfriend</td>
-              <td>Family</td>
-              <td><a href="#" class="status_btn">Important</a></td>
-              <td>26.05.2024</td>
-              <td>8/10</td>
-              <td>In progress</td>
-            </tr>
-            <tr>
-              <th scope="row"><a href="data_table.html#" class="question_content">1</a></th>
-              <td>Find a girlfriend</td>
-              <td>Family</td>
-              <td><a href="#" class="status_btn">Important</a></td>
-              <td>26.05.2024</td>
-              <td>8/10</td>
-              <td>In progress</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <button type="button" class="btn_1 mb-3" (click)="openAddTaskDialog()">Add new goal</button>
     </div>
   </div>
-</div>-->
+  <div *ngIf="goals && goals.length > 0" class="white_card_body">
+    <div class="white_box_tittle list_header">
+      <h4>Table</h4>
+    </div>
 
+    <table [dataSource]="dataSource" mat-table matSort class="table lms_table_active">
+      <!--['#', 'title', 'category', 'priority', 'deadline', 'progress', 'status'];-->
+      <!--#-->
+      <ng-container matColumnDef="#">
+        <th *matHeaderCellDef mat-header-cell>#</th>
+        <td *matCellDef="let index = index;" class="col-id" mat-cell>
+          {{index + 1}}
+        </td>
+      </ng-container>
 
-
-<div *ngIf="goals && goals.length > 0" class="QA_table white_card card_height_100 mb_30">
-
-  <table [dataSource]="dataSource" mat-table matSort class="table lms_table_active">
-    <!--['#', 'title', 'category', 'priority', 'deadline', 'progress', 'status'];-->
-    <!--#-->
-    <ng-container matColumnDef="#">
-      <th *matHeaderCellDef mat-header-cell></th>
-      <td *matCellDef="let index = index;" class="col-id" mat-cell>
-        {{index + 1}}
-      </td>
-    </ng-container>
-
-    <!-- Title -->
-    <ng-container matColumnDef="title">
-      <th *matHeaderCellDef mat-header-cell mat-sort-header> Title</th>
-      <td (click)="openEditGoalDialog(goal)" *matCellDef="let goal"
-          class="col-title pointer"
-          mat-cell
-      >
-        {{goal.title}}
-      </td>
-    </ng-container>
-
-    <!-- Category -->
-    <ng-container matColumnDef="category">
-      <th *matHeaderCellDef mat-header-cell mat-sort-header> Category</th>
-      <td (click)="openEditGoalDialog(goal)" *matCellDef="let goal"
-          class="col-title pointer"
-          mat-cell
-      >
-        {{goal.category ? goal.category.title : "No value"}}
-      </td>
-    </ng-container>
-
-    <!-- Priority -->
-    <ng-container matColumnDef="priority">
-      <th *matHeaderCellDef mat-header-cell mat-sort-header> Priority</th>
-      <td *matCellDef="let goal" class="col-priority"
-          [ngClass]="{'completed': goal.isCompleted, 'novalue': goal.priority == null}"
-          mat-cell
-      >
-        {{goal.priority ? goal.priority.title : "Без приоритета"}}
-      </td>
-    </ng-container>
-
-    <!-- Deadline -->
-    <ng-container matColumnDef="deadline">
-      <th *matHeaderCellDef mat-header-cell mat-sort-header>Deadline</th>
-      <td *matCellDef="let goal"
-          [ngClass]="{'completed': goal.isCompleted, 'novalue': goal.deadline == null}"
-          class="col-date"
-          mat-cell>
-        {{goal.deadline}}
-      </td>
-    </ng-container>
-
-    <!--Progress-->
-    <ng-container matColumnDef="progress">
-      <th *matHeaderCellDef mat-header-cell mat-sort-header> Progress</th>
-      <td *matCellDef="let goal" class="col-priority"
-          mat-cell
-      >
-        8/10
-      </td>
-    </ng-container>
-
-    <!--Status-->
-    <ng-container matColumnDef="status">
-      <th scope="col" *matHeaderCellDef mat-header-cell mat-sort-header> Category</th>
-      <!--(click)="!task.completed && task.category && onSelectCategory(task.category)"-->
-      <td *matCellDef="let goal"
-          mat-cell
-      >
-        status
-      </td>
-    </ng-container>
-
-
-<!--    &lt;!&ndash;доступные действия над задачей&ndash;&gt;
-    <ng-container matColumnDef="operations">
-      <th *matHeaderCellDef mat-header-cell></th>
-      <td *matCellDef="let goal" [class.completed]="goal.isCompleted" class="col-operations" mat-cell>
-
-        <button (click)="openDeleteDialog(goal)" class="delete-icon"
-                mat-icon-button
+      <!-- Title -->
+      <ng-container matColumnDef="title">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Title</th>
+        <td *matCellDef="let goal"
+            class="col-title pointer"
+            mat-cell
+            [routerLink]="['/goal', goal.id]"
         >
-          <mat-icon aria-hidden="false">delete</mat-icon>
-        </button>
+          {{goal.title}}
+        </td>
+      </ng-container>
 
-
-        <button (click)="openEditGoalDialog(goal)" class="edit-icon"
-                mat-icon-button
+      <!-- Category -->
+      <ng-container matColumnDef="category">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Category</th>
+        <td *matCellDef="let goal"
+            mat-cell
         >
+          {{goal.category ? goal.category.title : "No value"}}
+        </td>
+      </ng-container>
 
-          <mat-icon aria-hidden="false">edit</mat-icon>
-        </button>
-
-      </td>
-    </ng-container>
-
-
-    &lt;!&ndash;            галочка для выполнения/активации задачи&ndash;&gt;
-    <ng-container matColumnDef="select">
-
-      <th *matHeaderCellDef mat-header-cell></th>
-
-      <td *matCellDef="let task" class="col-select text-right" mat-cell>
-
-        <mat-checkbox
-
-          (change)="$event ? onToggleStatus(task) : null"
-
-          (click)="$event.stopPropagation()"
-
-          [checked]="task.completed"
+      <!-- Priority -->
+      <ng-container matColumnDef="priority">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Priority</th>
+        <td *matCellDef="let goal" class="col-priority"
+            [ngClass]="{'completed': goal.isCompleted, 'novalue': goal.priority == null}"
+            mat-cell
         >
+          {{goal.priority ? goal.priority.title : "Без приоритета"}}
+        </td>
+      </ng-container>
 
-        </mat-checkbox>
+      <!-- Deadline -->
+      <ng-container matColumnDef="deadline">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Deadline</th>
+        <td *matCellDef="let goal"
+            [ngClass]="{'completed': goal.isCompleted, 'novalue': goal.deadline == null}"
+            class="col-date"
+            mat-cell>
+          {{goal.deadline | date:'shortDate' }}
+        </td>
+      </ng-container>
+
+      <!--Progress-->
+      <ng-container matColumnDef="progress">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Progress</th>
+        <td *matCellDef="let goal" class="col-priority"
+            mat-cell
+        >
+          8/10
+        </td>
+      </ng-container>
+
+      <!--Status-->
+      <ng-container matColumnDef="status">
+        <th scope="col" *matHeaderCellDef mat-header-cell mat-sort-header> Status</th>
+        <!--(click)="!task.completed && task.category && onSelectCategory(task.category)"-->
+        <td *matCellDef="let goal"
+            mat-cell
+        >
+          {{goal.isCompleted ? 'Completed' : 'In progress'}}
+        </td>
+      </ng-container>
+
+      <!--Edit-->
+      <ng-container matColumnDef="edit">
+        <th scope="col" *matHeaderCellDef mat-header-cell mat-sort-header></th>
+        <td (click)="openEditGoalDialog(goal)" *matCellDef="let goal"
+            mat-cell
+        >
+          <i class="fas fa-edit"></i>
+        </td>
+      </ng-container>
+
+      <!--Delete-->
+      <ng-container matColumnDef="delete">
+        <th scope="col" *matHeaderCellDef mat-header-cell mat-sort-header></th>
+        <td (click)="openDeleteDialog(goal)" *matCellDef="let goal"
+            mat-cell
+        >
+          <i class="fa fa-trash" aria-hidden="true"></i>
+        </td>
+      </ng-container>
 
 
-      </td>
-    </ng-container>-->
+      <!--    &lt;!&ndash;доступные действия над задачей&ndash;&gt;
+          <ng-container matColumnDef="operations">
+            <th *matHeaderCellDef mat-header-cell></th>
+            <td *matCellDef="let goal" [class.completed]="goal.isCompleted" class="col-operations" mat-cell>
+
+              <button (click)="openDeleteDialog(goal)" class="delete-icon"
+                      mat-icon-button
+              >
+                <mat-icon aria-hidden="false">delete</mat-icon>
+              </button>
 
 
-    <!--  заголовок таблицы-->
-    <tr *matHeaderRowDef="displayedColumns; " mat-header-row></tr>
+              <button (click)="openEditGoalDialog(goal)" class="edit-icon"
+                      mat-icon-button
+              >
 
-    <!--  строки таблицы - набор строк из тегов td (порядок указывается в переменной displayedColumns) -->
-    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+                <mat-icon aria-hidden="false">edit</mat-icon>
+              </button>
 
-  </table>
+            </td>
+          </ng-container>
 
-  <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
+
+          &lt;!&ndash;            галочка для выполнения/активации задачи&ndash;&gt;
+          <ng-container matColumnDef="select">
+
+            <th *matHeaderCellDef mat-header-cell></th>
+
+            <td *matCellDef="let task" class="col-select text-right" mat-cell>
+
+              <mat-checkbox
+
+                (change)="$event ? onToggleStatus(task) : null"
+
+                (click)="$event.stopPropagation()"
+
+                [checked]="task.completed"
+              >
+
+              </mat-checkbox>
 
 
+            </td>
+          </ng-container>-->
+
+
+      <!--  заголовок таблицы-->
+      <tr *matHeaderRowDef="displayedColumns; " mat-header-row></tr>
+
+      <!--  строки таблицы - набор строк из тегов td (порядок указывается в переменной displayedColumns) -->
+      <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
+
+
+  </div>
+
+  <div *ngIf="goals && goals.length == 0" class="white_card_body">
+    <p class="not-found">Ничего не найдено</p>
+  </div>
 </div>
-
-<div *ngIf="goals && goals.length == 0"><p class="not-found">Ничего не найдено</p></div>

@@ -5,11 +5,18 @@ import {TestData} from "../../TestData";
 
 export class PriorityDAOArray implements PriorityDAO {
   add(priority: Priority): Observable<Priority> {
-    return EMPTY;
+    TestData.priorities.push(priority);
+    return of(priority);
   }
 
   delete(id: number): Observable<Priority> {
-    return EMPTY;
+    let originalPriority = TestData.priorities.find(x => x.id == id);
+    if (!originalPriority) {
+      return EMPTY;
+    }
+    let index = TestData.priorities.indexOf(originalPriority);
+    TestData.priorities.splice(index, 1);
+    return of(originalPriority);
   }
 
   get(id: number): Observable<Priority> {
@@ -21,6 +28,13 @@ export class PriorityDAOArray implements PriorityDAO {
   }
 
   update(priority: Priority): Observable<Priority> {
-    return EMPTY;
+    let originalPriority = TestData.priorities.find(x => x.id == priority.id);
+
+    if (!originalPriority) {
+      return EMPTY;
+    }
+    let index = TestData.priorities.indexOf(originalPriority);
+    TestData.priorities.splice(index, 1, priority);
+    return of(priority);
   }
 }

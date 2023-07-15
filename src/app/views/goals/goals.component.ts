@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Goal} from "../../model/Goal";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
@@ -6,7 +6,7 @@ import {MatSort} from "@angular/material/sort";
 import {Category} from "../../model/Category";
 import {MatDialog} from "@angular/material/dialog";
 import {DataHandlerService} from "../../service/data-handler.service";
-import {EditGoalDialogComponent} from "../../dialog/edit-goal-dialog/edit-goal-dialog.component";
+import {GoalDialogComponent} from "../../dialog/goal-dialog/goal-dialog.component";
 import {ConfirmDialogComponent} from "../../dialog/confirm-dialog/confirm-dialog.component";
 
 @Component({
@@ -15,7 +15,7 @@ import {ConfirmDialogComponent} from "../../dialog/confirm-dialog/confirm-dialog
   styleUrls: ['./goals.component.css']
 })
 
-export class GoalsComponent implements OnInit {
+export class GoalsComponent implements OnInit, AfterViewInit {
 
   @Output()
   deleteGoal = new EventEmitter<Goal>();
@@ -23,29 +23,35 @@ export class GoalsComponent implements OnInit {
   selectCategory = new EventEmitter<Category>(); // нажали на категорию из списка задач
   @Output()
   updateGoal = new EventEmitter<Goal>();
+  @Output()
+  addGoal = new EventEmitter<Goal>();
+
   dataSource: MatTableDataSource<Goal>; // контейнер - источник данных для таблицы
   // поля для таблицы (те, что отображают данные из задачи - должны совпадать с названиями переменных класса)
   // #	Title	Category	Priority	Deadline	Progress	Status
-  displayedColumns: string[] = ['#', 'title', 'category', 'priority', 'deadline', 'progress', 'status'];
+  displayedColumns: string[] = ['#', 'title', 'category', 'priority', 'deadline', 'progress', 'status', 'edit', 'delete'];
   // ссылки на компоненты таблицы
   @ViewChild(MatPaginator, {static: false}) paginator?: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort?: MatSort;
 
-  goals: Goal[];
+  private goalsF: Goal[];
 
   // текущие задачи для отображения на странице
   @Input('goals')
   set setGoals(goals: Goal[]) { // напрямую не присваиваем значения в переменную, только через @Input
-    this.goals = goals;
-    console.log("hi");
+    this.goalsF = goals;
     this.fillTable();
+  }
+
+  public get goals(): Goal[] {
+    return this.goalsF;
   }
 
   // доступ к данным
   // работа с диалоговым окном
   constructor(private dataHandler: DataHandlerService, private dialog: MatDialog) {
     this.dataSource = new MatTableDataSource();
-    this.goals = [];
+    this.goalsF = [];
   }
 
   ngOnInit() {
@@ -53,22 +59,10 @@ export class GoalsComponent implements OnInit {
     this.fillTable(); // заполняем таблицы данными (задачи) и всеми метаданными
   }
 
-
-  // в зависимости от статуса задачи - вернуть цвет названия
-  /*   getPriorityColor(goal: Goal): string {
-
-      // цвет завершенной задачи
-      if (goal.completed) {
-        return '#F8F9FA'; // TODO вынести цвета в константы (magic strings, magic numbers)
-      }
-
-      if (goal.priority && goal.priority.color) {
-        return goal.priority.color;
-      }
-
-      return '#fff'; // TODO вынести цвета в константы (magic strings, magic numbers)
-
-    }*/
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort == null ? null : this.sort; // компонент для сортировки данных (если необходимо)
+    this.dataSource.paginator = this.paginator == null ? null : this.paginator; // обновить компонент постраничности (кол-во записей, страниц)
+  }
 
   // показывает задачи с применением всех текущий условий (категория, поиск, фильтры и пр.)
   fillTable(): void {
@@ -77,7 +71,7 @@ export class GoalsComponent implements OnInit {
       return;
     }
 
-    this.dataSource.data = this.goals; // обновить источник данных (т.к. данные массива goals обновились)
+    this.dataSource.data = this.goalsF; // обновить источник данных (т.к. данные массива goals обновились)
     this.dataSource.sort = this.sort == null ? null : this.sort; // компонент для сортировки данных (если необходимо)
     this.dataSource.paginator = this.paginator == null ? null : this.paginator; // обновить компонент постраничности (кол-во записей, страниц)
 
@@ -111,31 +105,13 @@ export class GoalsComponent implements OnInit {
   public openEditGoalDialog(goal: Goal): void {
 
     // открытие диалогового окна
-    const dialogRef = this.dialog.open(EditGoalDialogComponent, {
+    const dialogRef = this.dialog.open(GoalDialogComponent, {
       data: [goal, 'Редактирование задачи'],
       autoFocus: false
     });
 
     dialogRef.afterClosed().subscribe(result => {
       // обработка результатов
-
-      if (result === 'complete') {
-        goal.isCompleted = true; // ставим статус задачи как выполненная
-        this.updateGoal.emit(goal);
-      }
-
-
-      if (result === 'activate') {
-        goal.isCompleted = false; // возвращаем статус задачи как невыполненная
-        this.updateGoal.emit(goal);
-        return;
-      }
-
-      if (result === 'delete') {
-        this.deleteGoal.emit(goal);
-        return;
-      }
-
       if (result as Goal) { // если нажали ОК и есть результат
         this.updateGoal.emit(goal);
         return;
@@ -143,11 +119,24 @@ export class GoalsComponent implements OnInit {
     });
   }
 
+  // диалоговое окно для добавления задачи
+  openAddTaskDialog(): void {
+    // то же самое, что и при редактировании, но только передаем пустой объект Task
+    let goal = new Goal(0, '', '', true, new Date(), undefined, undefined);
+
+    const dialogRef = this.dialog.open(GoalDialogComponent, {data: [goal, 'Add goal', 'add']});
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result) { // если нажали ОК и есть результат
+        this.addGoal.emit(result);
+      }
+    });
+  }
 
   // диалоговое окно подтверждения удаления
   openDeleteDialog(goal: Goal) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      maxWidth: '500px',
       data: {
         dialogTitle: 'Подтвердите действие',
         message: `Вы действительно хотите удалить задачу: "${goal.title}"?`

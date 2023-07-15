@@ -1,0 +1,35 @@
+<mat-dialog-content>
+  <div *ngFor="let category of categories, let index = index" class="vertical-middle priorities">
+
+    <div class="row align-self-baseline">
+
+      <div class="col-7 ">
+        <a class="pointer"> {{category.title}}</a>
+      </div>
+
+      <div class="col-2 text-right">
+        <span [(colorPicker)]="category.color" [style.background]="category.color" class="color-circle"></span>
+      </div>
+
+      <div class="col-1 text-left">
+        <p (click)="onDeleteCategory(category)" class="pointer gray">
+          <mat-icon>delete</mat-icon>
+        </p>
+      </div>
+
+      <div class="col-1 text-left">
+        <p (click)="onUpdateCategory(category)" class="pointer gray">
+          <mat-icon>edit</mat-icon>
+        </p>
+      </div>
+    </div>
+  </div>
+
+</mat-dialog-content>
+<!--  кнопки возможных действий-->
+
+<mat-dialog-actions>
+  <p (click)="onAddCategory()" class="link little">
+    Добавить приоритет
+  </p>
+</mat-dialog-actions>
