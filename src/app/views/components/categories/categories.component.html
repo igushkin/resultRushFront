@@ -1,0 +1,54 @@
+<div class="col-lg-12">
+  <div class="single_element">
+    <div class="quick_activity">
+      <div class="row">
+        <div class="col-12">
+          <div class="quick_activity_wrap">
+
+            <div class="single_quick_activity">
+              <div class="count_content">
+                <!--<p>All</p>-->
+
+                <div class="box_header" style="margin-bottom: 15px;">
+                  <div class="main-title">
+                    <p class="m-0">All</p>
+                  </div>
+                </div>
+                <h3><span class="counter">{{categoriesStat.totalGoals}}</span> Goals</h3>
+              </div>
+              <div class="barfiller" id="bar1" [attr.data-color]="mainColor">
+                <div class="tipWrap">
+                  <span class="tip"></span>
+                </div>
+                <span class="fill"
+                      [attr.data-percentage]="categoriesStat.totalGoals == 0 ? 0 : ((categoriesStat.completedGoals / categoriesStat.totalGoals ) * 100 | number:'1.0-0')"
+                      [attr.data-color]="mainColor"
+                ></span>
+              </div>
+            </div>
+
+            <div *ngFor="let category of categories; let index = index;" class="single_quick_activity">
+              <div class="count_content">
+                <div class="box_header" style="margin-bottom: 15px;">
+                  <div class="main-title">
+                    <p class="m-0">{{category.title}}</p>
+                  </div>
+                </div>
+                <h3><span
+                  class="counter">{{category.totalGoals}}</span>
+                  Goals</h3>
+              </div>
+              <div class="barfiller" [attr.data-color]="category.color">
+                <div class="tipWrap">
+                  <span class="tip"></span>
+                </div>
+                <span class="fill"
+                      [attr.data-percentage]="category.totalGoals==0 ?  0: ((category.completedGoals / category.totalGoals ) * 100 | number:'1.0-0')"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

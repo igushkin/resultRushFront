@@ -1,11 +1,11 @@
 export class CategoryStat {
-  total: number;
-  completed: number;
-  uncompleted: number;
+  totalGoals: number;
+  completedGoals: number;
+  uncompletedGoals: number;
 
   constructor(total: number, completed: number, uncompleted: number) {
-    this.total = total;
-    this.completed = completed;
-    this.uncompleted = uncompleted;
+    this.totalGoals = total;
+    this.completedGoals = completed;
+    this.uncompletedGoals = uncompleted;
   }
 }

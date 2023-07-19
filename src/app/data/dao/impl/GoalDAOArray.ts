@@ -27,7 +27,7 @@ export class GoalDAOArray implements GoalDAO {
   }
 
   delete(id: number): Observable<Goal> {
-    let goalTmp = TestData.goals.find(t => t.id === id); // удаляем по id
+    let goalTmp = TestData.goals.find(t => t.id === id);
 
     if (goalTmp == null) {
       return EMPTY;
@@ -38,7 +38,7 @@ export class GoalDAOArray implements GoalDAO {
     return of(goalTmp);
   }
 
-  // Get total stat
+
   getTotalCount(): Observable<number> {
     return of(TestData.goals.length);
   }
@@ -51,7 +51,7 @@ export class GoalDAOArray implements GoalDAO {
     return of(TestData.goals.filter(x => !x.isCompleted).length);
   }
 
-  // Get category stat
+
   getTotalCountInCategory(category: Category): Observable<number> {
     return of(TestData.goals.filter(x => x.category && x.category.id == category.id).length);
   }
@@ -64,8 +64,7 @@ export class GoalDAOArray implements GoalDAO {
     return of(TestData.goals.filter(x => x.category && x.category.id == category.id && !x.isCompleted).length);
   }
 
-  // поиск задач по параметрам
-  // если значение null - параметр не нужно учитывать при поиске
+
   search(category: Category, searchText: string, status: boolean, priority: Priority): Observable<Goal[]> {
     return of(this.searchTodos(category, searchText, status, priority));
   }
@@ -77,11 +76,11 @@ export class GoalDAOArray implements GoalDAO {
       allGoals = allGoals.filter(todo => todo.category === category);
     }
 
-    return allGoals; // отфильтрованный массив
+    return allGoals;
   }
 
   update(goal: Goal): Observable<Goal> {
-    let goalTmp = TestData.goals.find(t => t.id === goal.id); // обновляем по id
+    let goalTmp = TestData.goals.find(t => t.id === goal.id);
     if (goalTmp == null) {
       return EMPTY;
     }

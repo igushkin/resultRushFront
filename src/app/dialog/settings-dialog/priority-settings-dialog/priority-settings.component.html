@@ -1,0 +1,60 @@
+<mat-dialog-content>
+
+
+  <p mat-dialog-title>{{dialogTitle}}</p>
+
+  <!--  <div *ngFor="let priority of priorities, let index = index" class="vertical-middle priorities">
+      <div class="row align-self-baseline">
+
+        <div class="col-9 ">
+          <a class="pointer"> {{priority.title}}</a>
+        </div>
+
+        <div class="col-1 text-left">
+          <p (click)="onDeletePriority(priority)" class="pointer gray">
+            <mat-icon>delete</mat-icon>
+          </p>
+        </div>
+
+        <div class="col-1 text-left">
+          <p (click)="onUpdatePriority(priority)" class="pointer gray">
+            <mat-icon>edit</mat-icon>
+          </p>
+        </div>
+      </div>
+    </div>-->
+
+  <div *ngIf="priorities.length > 0" class="QA_section table-responsive ">
+
+    <table class="table lms_table_active QA_table settings">
+      <tbody>
+      <tr *ngFor="let priority of priorities, let index = index">
+        <td class="title">{{priority.title}}</td>
+        <td>
+          <p (click)="onUpdatePriority(priority)" class="pointer td-edit">
+            <mat-icon>edit</mat-icon>
+          </p>
+        </td>
+        <td>
+          <p (click)="onDeletePriority(priority)" class="pointer td-delete">
+            <mat-icon>delete</mat-icon>
+          </p>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <div *ngIf="priorities.length == 0">
+    <p>Priorities have not been added yet!</p>
+  </div>
+
+</mat-dialog-content>
+<!--  кнопки возможных действий-->
+
+<mat-dialog-actions>
+  <button (click)="onAddPriority()" class="btn btn-primary">
+    New priority
+  </button>
+</mat-dialog-actions>

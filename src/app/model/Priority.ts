@@ -7,16 +7,3 @@ export class Priority {
     this.title = title;
   }
 }
-
-/*
-
-public class Priority {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer priorityId;
-    @Basic(optional = false)
-    private String name;
-    @Basic(optional = false)
-    private String color;
-}
- */

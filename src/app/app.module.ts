@@ -3,9 +3,9 @@ import {BrowserModule} from '@angular/platform-browser';
 import 'simplebar';
 
 import {AppComponent} from './app.component';
-import {SidebarComponent} from './views/sidebar/sidebar.component';
-import {GoalsComponent} from './views/goals/goals.component';
-import {CategoriesComponent} from './views/categories/categories.component';
+import {SidebarComponent} from './views/components/sidebar/sidebar.component';
+import {GoalsComponent} from './views/components/goals/goals.component';
+import {CategoriesComponent} from './views/components/categories/categories.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
@@ -20,27 +20,32 @@ import {MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatCheckboxModule} from "@angular/material/checkbox";
-import {GoalDialogComponent} from "./dialog/goal-dialog/goal-dialog.component";
+import {GoalEditDialogComponent} from "./dialog/edit-dialog/goal-edit-dialog/goal-edit-dialog.component";
 import {ConfirmDialogComponent} from "./dialog/confirm-dialog/confirm-dialog.component";
-import {CategorySettingsComponent} from "./dialog/category-settings-dialog/category-settings.component";
-import {CategoryEditDialogComponent} from "./dialog/category-edit-dialog/category-edit-dialog.component";
-import {PrioritySettingsComponent} from "./dialog/priority-settings-dialog/priority-settings.component";
-import {PriorityEditDialogComponent} from "./dialog/priority-edit-dialog/priority-edit-dialog.component";
+import {CategorySettingsComponent} from "./dialog/settings-dialog/category-settings-dialog/category-settings.component";
+import {CategoryEditDialogComponent} from "./dialog/edit-dialog/category-edit-dialog/category-edit-dialog.component";
+import {PrioritySettingsComponent} from "./dialog/settings-dialog/priority-settings-dialog/priority-settings.component";
+import {PriorityEditDialogComponent} from "./dialog/edit-dialog/priority-edit-dialog/priority-edit-dialog.component";
 import {ColorPickerModule} from "ngx-color-picker";
-import {HeaderComponent} from "./views/header/header.component";
-import { AppRoutingModule } from './app-routing.module';
-import { MainPageComponent } from './pages/main-page/main-page.component';
-import { GoalPageComponent } from './pages/goal-page/goal-page.component';
-import { MilestoneEditDialogComponent } from './dialog/milestone-edit-dialog/milestone-edit-dialog.component';
+import {HeaderComponent} from "./views/components/header/header.component";
+import {AppRoutingModule} from './app-routing.module';
+import {MainPageComponent} from './views/pages/main-page/main-page.component';
+import {GoalPageComponent} from './views/pages/goal-page/goal-page.component';
+import {MilestoneEditDialogComponent} from './dialog/edit-dialog/milestone-edit-dialog/milestone-edit-dialog.component';
+import {HttpClientModule} from "@angular/common/http";
+import {CATEGORY_URL_TOKEN} from "./service/impl/CategoryServiceImpl";
+import {PRIORITY_URL_TOKEN} from "./service/impl/PriorityServiceImpl";
+import {GOAL_URL_TOKEN} from "./service/impl/GoalServiceImpl";
+import {MILESTONE_URL_TOKEN} from "./service/impl/MilestoneServiceImpl";
 
-// @ts-ignore
+
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
     GoalsComponent,
     CategoriesComponent,
-    GoalDialogComponent,
+    GoalEditDialogComponent,
     ConfirmDialogComponent,
     CategoryEditDialogComponent,
     HeaderComponent,
@@ -69,10 +74,30 @@ import { MilestoneEditDialogComponent } from './dialog/milestone-edit-dialog/mil
     MatNativeDateModule,
     MatCheckboxModule,
     ColorPickerModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [
-    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: {appearance: 'outline'}
+    },
+    {
+      provide: CATEGORY_URL_TOKEN,
+      useValue: 'http://localhost:8080/categories'
+    },
+    {
+      provide: GOAL_URL_TOKEN,
+      useValue: 'http://localhost:8080/goals'
+    },
+    {
+      provide: PRIORITY_URL_TOKEN,
+      useValue: 'http://localhost:8080/priorities'
+    },
+    {
+      provide: MILESTONE_URL_TOKEN,
+      useValue: 'http://localhost:8080/milestones'
+    }
   ],
   bootstrap: [AppComponent]
 })

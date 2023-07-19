@@ -1,6 +1,6 @@
-$(document).ready(function () {
-  var proBar = $('#bar1');
-  if (proBar.length) {
-    proBar.barfiller({barColor: '#4c6ef8', duration: 1500});
-  }
-});
+function myFunc() {
+  $('.barfiller').each(function (index) {
+    var color = $(this).attr('data-color');
+    $(this).barfiller({barColor: color, duration: 1500});
+  });
+};

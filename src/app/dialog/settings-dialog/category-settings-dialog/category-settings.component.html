@@ -1,0 +1,63 @@
+<mat-dialog-content>
+
+  <p mat-dialog-title>{{dialogTitle}}</p>
+
+  <div *ngIf="categories.length > 0" class="QA_section table-responsive ">
+
+    <table class="table lms_table_active QA_table settings">
+      <tbody>
+      <tr *ngFor="let category of categories, let index = index">
+        <td class="title">{{category.title}}</td>
+        <td>
+          <p (click)="onUpdateCategory(category)" class="pointer td-edit">
+            <mat-icon>edit</mat-icon>
+          </p>
+        </td>
+        <td>
+          <p (click)="onDeleteCategory(category)" class="pointer td-delete">
+            <mat-icon>delete</mat-icon>
+          </p>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!--  <tr *ngFor="let category of categories, let index = index" class="vertical-middle priorities">
+
+      <div class="row align-self-baseline">
+
+        <div class="col-7 ">
+          {{category.title}}
+        </div>
+
+        <div class="col-2 text-right">
+          <span [(colorPicker)]="category.color" [style.background]="category.color" class="color-circle"></span>
+        </div>
+
+        <div class="col-1 text-left">
+          <p (click)="onUpdateCategory(category)" class="pointer gray">
+            <mat-icon>edit</mat-icon>
+          </p>
+        </div>
+
+        <div class="col-1 text-left">
+          <p (click)="onDeleteCategory(category)" class="pointer gray">
+            <mat-icon>delete</mat-icon>
+          </p>
+        </div>
+      </div>
+    </tr>-->
+
+  <div *ngIf="categories.length == 0">
+    <p>Categories have not been added yet!</p>
+  </div>
+
+</mat-dialog-content>
+<!--  кнопки возможных действий-->
+
+<mat-dialog-actions>
+  <button (click)="onAddCategory()" class="btn btn-primary">
+    New category
+  </button>
+</mat-dialog-actions>

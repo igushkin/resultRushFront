@@ -43,7 +43,7 @@ export class CategoryDAOArray implements CategoryDAO {
   }
 
   delete(id: number): Observable<Category> {
-    let categoryTmp = TestData.categories.find(t => t.id === id); // обновляем по id
+    let categoryTmp = TestData.categories.find(t => t.id === id);
     if (!categoryTmp) {
       return EMPTY;
     }
@@ -53,7 +53,7 @@ export class CategoryDAOArray implements CategoryDAO {
   }
 
   update(category: Category): Observable<Category> {
-    let categoryTmp = TestData.categories.find(t => t.id === category.id); // обновляем по id
+    let categoryTmp = TestData.categories.find(t => t.id === category.id);
     if (!categoryTmp) {
       return EMPTY;
     }

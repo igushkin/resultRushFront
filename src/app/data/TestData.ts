@@ -5,11 +5,7 @@ import {Milestone} from "../model/Milestone";
 
 export class TestData {
 
-  static categories: Category[] = [
-    {id: 1, title: 'Работа', color: '#e5e5e5'},
-    {id: 2, title: 'Семья', color: '#85D1B2'},
-    {id: 3, title: 'Учеба', color: '#F1828D'}
-  ];
+  static categories: Category[] = [];
 
   static priorities: Priority[] = [
     {id: 1, title: 'Низкий'},
@@ -17,7 +13,7 @@ export class TestData {
     {id: 3, title: 'Высокий'}
   ];
 
-  // не забывать - индексация приоритетов и категорий начинается с нуля
+
   static goals: Goal[] = [
     {
       id: 1,

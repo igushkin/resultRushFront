@@ -1,0 +1,90 @@
+.mat-mdc-dialog-content .mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-dialog-title {
+  font-family: comfortaa, cursive !important;
+  padding-left: 0px !important;
+  padding-bottom: 15px !important;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.td-delete, .td-edit {
+  padding: 13px !important;
+}
+
+.mat-icon {
+  color: #14256a;
+}
+
+
+.goal-table-wrapper .box_header {
+  justify-content: flex-start;
+}
+
+.goal-table-wrapper .box_header .table-title {
+  font-weight: 700;
+  margin-left: 5px;
+  font-size: 20px;
+  color: #14256a;
+}
+
+.goal-table-wrapper .box_header .add-btn {
+  margin: 0 !important;
+  margin-left: 30px !important;
+}
+
+.btn-primary {
+  color: #fff;
+  margin-right: 10px;
+  background-color: #14256a !important;
+  border-color: #14256a !important;;
+}
+
+.btn-primary:hover {
+  background-color: #fff !important;
+  border: 1px solid #313f5a;
+  color: #2d1967;
+}
+
+.btn {
+  font-size: 15px;
+}
+
+.mat-mdc-dialog-actions {
+  justify-content: center !important;
+}
+
+.table.settings tr td.title {
+  width: 80%;
+}
+
+.badge {
+  font-size: inherit;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.no-value {
+  opacity: 0.2 !important;
+}
+
+
+.mail-inside textarea {
+  color: var(--main-color);
+  line-height: 1.8em;
+  font-size: 14px;
+}
+
+textarea::placeholder {
+  opacity: 0.5 !important;
+}
+
+.mail-assign {
+  border-bottom: none !important;
+}

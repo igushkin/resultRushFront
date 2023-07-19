@@ -1,13 +1,3 @@
-// Typescript declarations for Apex class and module.
-// Note: When you have a class and a module with the same name; the module is merged
-// with the class.  This is necessary since apexcharts exports the main ApexCharts class only.
-//
-// This is a sparse typed declarations of chart interfaces.  See Apex Chart documentation
-// for comprehensive API:  https://apexcharts.com/docs/options
-//
-// There is on-going work to provide a comprehensive typed definition for this component.
-// See https://github.com/DefinitelyTyped/DefinitelyTyped/pull/28733
-
 declare class ApexCharts {
   constructor(el: any, options: any)
   render(): Promise<void>
@@ -92,10 +82,7 @@ type ApexDropShadow = {
   color?: string
 }
 
-/**
- * Main Chart options
- * See https://apexcharts.com/docs/options/chart/
- */
+
 type ApexChart = {
   width?: string | number
   height?: string | number
@@ -274,10 +261,7 @@ type ApexStates = {
   }
 }
 
-/**
- * Chart Title options
- * See https://apexcharts.com/docs/options/title/
- */
+
 type ApexTitleSubtitle = {
   text?: string
   align?: 'left' | 'center' | 'right'
@@ -293,20 +277,7 @@ type ApexTitleSubtitle = {
   }
 }
 
-/**
- * Chart Series options.
- * Use ApexNonAxisChartSeries for Pie and Donut charts.
- * See https://apexcharts.com/docs/options/series/
- *
- * According to the documentation at
- * https://apexcharts.com/docs/series/
- * Section 1: data can be a list of single numbers
- * Sections 2.1 and 3.1: data can be a list of tuples of two numbers
- * Sections 2.2 and 3.2: data can be a list of objects where x is a string
- * and y is a number
- * And according to the demos, data can contain null.
- * https://apexcharts.com/javascript-chart-demos/line-charts/null-values/
- */
+
 type ApexAxisChartSeries = {
   name?: string
   type?: string
@@ -327,10 +298,7 @@ type ApexAxisChartSeries = {
 
 type ApexNonAxisChartSeries = number[]
 
-/**
- * Options for the line drawn on line and area charts.
- * See https://apexcharts.com/docs/options/stroke/
- */
+
 type ApexStroke = {
   show?: boolean
   curve?: 'smooth' | 'straight' | 'stepline' | ('smooth' | 'straight' | 'stepline')[]
@@ -467,10 +435,7 @@ type ImageAnnotations = {
   height?: number,
 }
 
-/**
- * Options for localization.
- * See https://apexcharts.com/docs/options/chart/locales
- */
+
 type ApexLocale = {
   name?: string
   options?: {
@@ -493,10 +458,7 @@ type ApexLocale = {
   }
 }
 
-/**
- * PlotOptions for specifying chart-type-specific configuration.
- * See https://apexcharts.com/docs/options/plotoptions/bar/
- */
+
 type ApexPlotOptions = {
   area?: {
     fillTo?: 'origin' | 'end'
@@ -743,10 +705,7 @@ type ApexFill = {
   }
 }
 
-/**
- * Chart Legend configuration options.
- * See https://apexcharts.com/docs/options/legend/
- */
+
 type ApexLegend = {
   show?: boolean
   showForSingleSeries?: boolean
@@ -847,10 +806,7 @@ type ApexNoData = {
   }
 }
 
-/**
- * Chart Datalabels options
- * See https://apexcharts.com/docs/options/datalabels/
- */
+
 type ApexDataLabels = {
   enabled?: boolean
   enabledOnSeries?: undefined | number[]
@@ -890,10 +846,7 @@ type ApexTooltipY = {
   formatter?(val: number, opts?: any): string
 }
 
-/**
- * Chart Tooltip options
- * See https://apexcharts.com/docs/options/tooltip/
- */
+
 type ApexTooltip = {
   enabled?: boolean
   enabledOnSeries?: undefined | number[]
@@ -931,16 +884,13 @@ type ApexTooltip = {
   }
   fixed?: {
     enabled?: boolean
-    position?: string // topRight; topLeft; bottomRight; bottomLeft
+    position?: string
     offsetX?: number
     offsetY?: number
   }
 }
 
-/**
- * X Axis options
- * See https://apexcharts.com/docs/options/xaxis/
- */
+
 type ApexXAxis = {
   type?: 'category' | 'datetime' | 'numeric'
   categories?: any;
@@ -1056,10 +1006,6 @@ type ApexXAxis = {
   }
 }
 
-/**
- * Y Axis options
- * See https://apexcharts.com/docs/options/yaxis/
- */
 
 type ApexYAxis = {
   show?: boolean
@@ -1143,10 +1089,7 @@ type ApexForecastDataPoints = {
   dashArray: number
 }
 
-/**
- * Plot X and Y grid options
- * See https://apexcharts.com/docs/options/grid/
- */
+
 type ApexGrid = {
   show?: boolean
   borderColor?: string

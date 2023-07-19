@@ -1,0 +1,211 @@
+<app-sidebar></app-sidebar>
+
+<section class="main_content dashboard_part default_content">
+
+  <router-outlet></router-outlet>
+
+
+  <app-header></app-header>
+
+  <div class="main_content_iner ">
+    <div class="container-fluid p-0 ">
+      <div class="row ">
+
+
+        <div class="col-12">
+          <div class="card_box position-relative  mb_30 white_bg ">
+            <div class="mail-contents">
+              <div style="display: flex; justify-content:space-between;">
+                <div class="mail-contents-subject">
+                  <input type="checkbox" name="msg" id="mail20" class="mail-choice" [checked]="goal?.isCompleted"
+                         disabled>
+                  <label for="mail20"></label>
+                  <div class="mail-contents-title">{{goal?.title}}</div>
+                </div>
+                <div class="mail-icons">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                       class="feather feather-trash-2">
+                    <path
+                      d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6"/>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                       class="feather feather-user">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                       class="feather feather-tag">
+                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82zM7 7h.01"/>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                       class="feather feather-check-square">
+                    <path d="M9 11l3 3L22 4"/>
+                    <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                       class="feather feather-paperclip">
+                    <path
+                      d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/>
+                  </svg>
+                </div>
+              </div>
+
+              <div class="mail">
+                <div class="mail-time">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                       class="feather feather-clock">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                  </svg>
+                  {{goal?.deadline ? (goal?.deadline | date:'shortDate') : "No deadline" }}
+                </div>
+                <div class="mail-inside">
+                  <textarea class="form-control mb-2" id="exampleFormControlTextarea1"
+                            rows="3" [(ngModel)]="tmpDescription"
+                            [placeholder]="descriptionPlceholder">
+                    {{goal?.description}}
+                  </textarea>
+                  <div *ngIf="tmpDescription != goal?.description">
+                    <button class="btn btn-primary" (click)="updateDescription()">Save</button>
+                    <button class="btn btn-light" (click)="tmpDescription=goal?.description">Cancel</button>
+                  </div>
+                </div>
+                <div class="mail-assign">
+                  <div class="assignee">
+                    <strong>Category: </strong> {{goal?.category?.title}}
+                  </div>
+                  <div class="assignee">
+                    <strong>Priority: </strong> {{goal?.priority?.title}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="col-lg-12">
+            <div class="white_card card_height_100 mb_30 QA_section">
+              <div class="white_card_header goal-table-wrapper">
+
+                <div class="box_header m-0">
+                  <div class="main-title">
+                    <h3 class="m-0 table-title">Milestones</h3>
+                  </div>
+                  <button type="button" class="btn_1 mb-3 add-btn" (click)="openAddDialog()">+ Milestone</button>
+                </div>
+
+              </div>
+
+              <div class="white_card_body">
+                <div class="QA_table table-responsive ">
+
+                  <table *ngIf="milestones && milestones.length > 0" class="table lms_table_active ">
+                    <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Title</th>
+                      <th scope="col">Deadline</th>
+                      <th scope="col">Status</th>
+                      <th scope="col"></th>
+                      <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let milestone of milestones; index as i">
+                      <td>{{i + 1}}</td>
+                      <td>{{milestone.title}}</td>
+                      <td [ngClass]="{'no-value': milestone.deadline == null}">
+                        {{milestone.deadline ? (milestone.deadline | date:'shortDate') : "No deadline" }}
+                      </td>
+                      <td>{{milestone.isCompleted ? "Completed" : "In progress" }}</td>
+                      <td (click)="openEditDialog(milestone)" class="pointer td-edit">
+                        <mat-icon>edit</mat-icon>
+                      </td>
+                      <td (click)="openDeleteDialog(milestone)" class="pointer td-delete">
+                        <mat-icon>delete</mat-icon>
+                      </td>
+
+                    </tr>
+                    </tbody>
+                  </table>
+
+                  <p *ngIf="!milestones || milestones.length == 0">Setting milestones can help you stay focused by
+                    breaking a larger goal into smaller parts that can feel more achievable.</p>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="white_card mb_30">
+            <div class="white_card_header">
+              <div class="box_header m-0">
+                <div class="main-title">
+                  <h3 class="m-0">Recent Activity</h3>
+                </div>
+              </div>
+            </div>
+            <div class="white_card_body">
+              <div class="Activity_timeline">
+                <ul>
+                  <li>
+                    <div class="activity_bell"></div>
+                    <div class="timeLine_inner d-flex align-items-center">
+                      <div class="activity_wrap d-flex ">
+                        <h6 class="nowrap">5 min ago</h6>
+                        <p>Lorem ipsum dolor sit amet, consectetur </p>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="activity_bell"></div>
+                    <div class="timeLine_inner d-flex align-items-center">
+                      <div class="activity_wrap d-flex ">
+                        <h6 class="nowrap">5 min ago</h6>
+                        <p>Lorem ipsum dolor sit amet, consectetur </p>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="activity_bell"></div>
+                    <div class="timeLine_inner d-flex align-items-center">
+                      <div class="activity_wrap d-flex ">
+                        <h6 class="nowrap">5 min ago</h6>
+                        <p>Lorem ipsum dolor sit amet, consectetur </p>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="footer_part default_footer">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="footer_iner text-center">
+            <p>2020 © Influence - Designed by <a href="../../../index.html#"> <i class="ti-heart"></i> </a><a
+              href="../../../index.html#"> Dashboard</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

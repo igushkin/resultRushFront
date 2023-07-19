@@ -6,6 +6,7 @@ export class Milestone {
   deadline?: Date;
   isCompleted: boolean;
   goal: Goal;
+  goalId?: number;
 
   constructor(id: number, title: string, isCompleted: boolean, goal: Goal) {
     this.id = id;
