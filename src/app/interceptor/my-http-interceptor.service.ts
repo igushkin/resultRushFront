@@ -8,6 +8,7 @@ import {TOKEN_KEY} from "../service/impl/AuthService";
 export class MyHttpInterceptor implements HttpInterceptor {
 
   constructor(@Inject(TOKEN_KEY) private tokenKey: string, private router: Router) {
+
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler) {
