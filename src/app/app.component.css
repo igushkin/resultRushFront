@@ -88,3 +88,21 @@ textarea::placeholder {
 .mail-assign {
   border-bottom: none !important;
 }
+
+#container {
+  margin: 20px;
+  width: 100px;
+  height: 100px;
+  position: relative;
+  max-width: 100%;
+}
+
+
+.barfiller {
+  width: 100%;
+  height: 6px;
+  background: none;
+  position: relative;
+  margin-bottom: 10px;
+  border-radius: 30px;
+}

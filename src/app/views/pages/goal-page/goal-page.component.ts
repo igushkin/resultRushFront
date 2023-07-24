@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {Goal} from "../../../model/Goal";
 import {ActivatedRoute} from "@angular/router";
 import {Milestone} from "../../../model/Milestone";
@@ -8,13 +8,18 @@ import {
   MilestoneEditDialogComponent
 } from "../../../dialog/edit-dialog/milestone-edit-dialog/milestone-edit-dialog.component";
 import {ServiceWrapper} from "../../../service/ServiceWrapper";
+import {Circle} from "progressbar.js";
+import {DrawingOptions} from "../../../model/DrawingOptions";
+
 
 @Component({
   selector: 'app-goal-page',
   templateUrl: './goal-page.component.html',
   styleUrls: ['./goal-page.component.css']
 })
-export class GoalPageComponent implements OnInit {
+export class GoalPageComponent implements OnInit, AfterViewInit {
+  // @ts-ignore
+  @ViewChild('myname', {static: false}) input: ElementRef<HTMLDivElement>;
 
   goal?: Goal;
   milestones: Milestone[];
@@ -38,10 +43,11 @@ export class GoalPageComponent implements OnInit {
     this.serviceWrapper.goalService.findById(id).subscribe(goal => {
       this.goal = goal;
       this.tmpDescription = this.goal?.description;
+      this.updateGoalStat();
+      this.drawProgressCircle();
     });
     this.serviceWrapper.milestoneService.getMilestonesByGoalId(id).subscribe(milestones => this.milestones = milestones);
   }
-
 
   public openEditDialog(milestone: Milestone): void {
 
@@ -61,6 +67,7 @@ export class GoalPageComponent implements OnInit {
           // @ts-ignore
           this.serviceWrapper.goalService.findById(this.goal.id).subscribe(goal => {
             this.goal = goal;
+            this.updateGoalStat();
           });
         });
       }
@@ -93,13 +100,13 @@ export class GoalPageComponent implements OnInit {
           // @ts-ignore
           this.serviceWrapper.goalService.findById(this.goal.id).subscribe(goal => {
             this.goal = goal;
+            this.updateGoalStat();
           });
         });
       }
     });
 
   }
-
 
   openDeleteDialog(milestone: Milestone) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -119,6 +126,7 @@ export class GoalPageComponent implements OnInit {
           // @ts-ignore
           this.serviceWrapper.goalService.findById(this.goal.id)
             .subscribe(goal => this.goal = goal);
+          this.updateGoalStat();
         })
       }
     });
@@ -134,5 +142,53 @@ export class GoalPageComponent implements OnInit {
 
     this.goal.description = this.tmpDescription;
     this.serviceWrapper.goalService.update(this.goal).subscribe(goal => this.goal = goal);
+  }
+
+  getTotalGoals(): number {
+    if (!this.goal) {
+      return 0;
+    }
+    // @ts-ignore
+    var total = this.goal.completedMilestones + this.goal.uncompletedMilestones;
+    return total;
+  }
+
+  getCompletedGoals(): number {
+    if (!this.goal) {
+      return 0;
+    }
+
+    return this.goal.completedMilestones ? this.goal.completedMilestones : 0;
+  }
+
+  circle?: any;
+  counter: number = 0;
+
+  updateGoalStat() {
+    if (this.counter == 0) {
+      this.counter++;
+      return;
+    }
+    this.drawProgressCircle();
+  }
+
+  ngAfterViewInit(): void {
+    /*    this.drawProgressCircle();*/
+  }
+
+  private drawProgressCircle() {
+    let opt = new DrawingOptions();
+    opt.color = '#4c6ef8';
+    opt.strokeWidth = 5;
+    opt.trailWidth = 1;
+    opt.easing = 'easeInOut';
+    opt.duration = 1400;
+    opt.text = {autoStyleContainer: false};
+    if (!this.circle) {
+      this.circle = new Circle(this.input.nativeElement, opt);
+    }
+
+    this.circle.setText(this.getTotalGoals() == 0 ? "0%" : (this.getCompletedGoals() * 100 / this.getTotalGoals()) + "%");
+    this.circle.animate(this.getTotalGoals() == 0 ? 0 : (this.getCompletedGoals() / this.getTotalGoals()));
   }
 }

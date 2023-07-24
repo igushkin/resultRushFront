@@ -5,9 +5,9 @@
         <div class="col-12">
           <div class="quick_activity_wrap">
 
-            <div class="single_quick_activity">
+<!--            <div class="single_quick_activity">
               <div class="count_content">
-                <!--<p>All</p>-->
+                &lt;!&ndash;<p>All</p>&ndash;&gt;
 
                 <div class="box_header" style="margin-bottom: 15px;">
                   <div class="main-title">
@@ -16,16 +16,17 @@
                 </div>
                 <h3><span class="counter">{{categoriesStat.totalGoals}}</span> Goals</h3>
               </div>
-              <div class="barfiller" id="bar1" [attr.data-color]="mainColor">
-                <div class="tipWrap">
-                  <span class="tip"></span>
-                </div>
-                <span class="fill"
-                      [attr.data-percentage]="categoriesStat.totalGoals == 0 ? 0 : ((categoriesStat.completedGoals / categoriesStat.totalGoals ) * 100 | number:'1.0-0')"
-                      [attr.data-color]="mainColor"
-                ></span>
+              <div #barfiller class="barfiller" id="bar1" data-id="0" [attr.data-color]="mainColor" [attr.data-total-goals]="categoriesStat.totalGoals" [attr.data-completed-goals]="categoriesStat.completedGoals"
+                   style="position:relative;">
+                &lt;!&ndash;                <div class="tipWrap">
+                                  <span class="tip"></span>
+                                </div>
+                                <span class="fill"
+                                      [attr.data-percentage]="categoriesStat.totalGoals == 0 ? 0 : ((categoriesStat.completedGoals / categoriesStat.totalGoals ) * 100 | number:'1.0-0')"
+                                      [attr.data-color]="mainColor"
+                                ></span>&ndash;&gt;
               </div>
-            </div>
+            </div>-->
 
             <div *ngFor="let category of categories; let index = index;" class="single_quick_activity">
               <div class="count_content">
@@ -38,12 +39,16 @@
                   class="counter">{{category.totalGoals}}</span>
                   Goals</h3>
               </div>
-              <div class="barfiller" [attr.data-color]="category.color">
-                <div class="tipWrap">
-                  <span class="tip"></span>
-                </div>
-                <span class="fill"
-                      [attr.data-percentage]="category.totalGoals==0 ?  0: ((category.completedGoals / category.totalGoals ) * 100 | number:'1.0-0')"></span>
+              <div #barfiller class="barfiller" [attr.data-id]="category.id" [attr.data-color]="category.color"
+                   [attr.data-total-goals]="category.totalGoals" [attr.data-completed-goals]="category.completedGoals"
+                   style="position:relative;">
+                <!--                <div class="tipWrap">
+                                  <span class="tip"></span>
+                                </div>
+                                <span class="fill"
+                                      [attr.data-percentage]="category.totalGoals==0 ?  0: ((category.completedGoals / category.totalGoals ) * 100 | number:'1.0-0')">
+
+                                </span>-->
               </div>
             </div>
           </div>

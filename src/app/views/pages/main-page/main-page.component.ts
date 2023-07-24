@@ -1,7 +1,6 @@
-import {AfterViewChecked, AfterViewInit, Component} from '@angular/core';
+import {AfterViewInit, Component, QueryList, ViewChildren} from '@angular/core';
 import {Goal} from "../../../model/Goal";
 import {Category} from "../../../model/Category";
-import {CategoryStat} from "../../../model/CategoryStat";
 import {ServiceWrapper} from "../../../service/ServiceWrapper";
 import {Priority} from "../../../model/Priority";
 
@@ -13,22 +12,26 @@ declare function myFunc(): void;
   styleUrls: ['./main-page.component.css']
 })
 
-export class MainPageComponent implements AfterViewChecked, AfterViewInit {
+export class MainPageComponent implements AfterViewInit {
   title = 'ResultRushFrontEnd';
   goals: Goal[] = [];
   categories: Category[] = [];
   priorities: Priority[] = [];
-  stat: CategoryStat;
+  /*  stat: CategoryStat;*/
+
+  //@ts-ignore
+  @ViewChildren('barfiller', {static: false}) categoryDivs: QueryList<HTMLDivElement>;
 
   constructor(private serviceWrapper: ServiceWrapper) {
-    this.stat = new CategoryStat(0, 0, 0);
-    this.serviceWrapper.goalService.findAll().subscribe(goals => this.goals = goals);
-    this.serviceWrapper.categoryService.findAll().subscribe(categories => this.categories = categories);
-    this.serviceWrapper.priorityService.findAll().subscribe(priorities => {
-      this.priorities = priorities;
-    });
+    /*    this.stat = new CategoryStat(0, 0, 0);*/
+    /*  this.serviceWrapper.goalService.findAll().subscribe(goals => this.goals = goals);
+      this.serviceWrapper.categoryService.findAll().subscribe(categories => this.categories = categories);
+      this.serviceWrapper.priorityService.findAll().subscribe(priorities => {
+        this.priorities = priorities;
+      });
 
-    this.serviceWrapper.goalService.getStat().subscribe(stat => this.stat = stat);
+      this.serviceWrapper.goalService.getStat().subscribe(stat => this.stat = stat);*/
+    this.fullReload();
   }
 
 
@@ -86,7 +89,7 @@ export class MainPageComponent implements AfterViewChecked, AfterViewInit {
     this.reloadPriorities();
     this.reloadGoals();
     this.reloadCategories();
-    this.reloadStat()
+    //this.reloadStat()
   }
 
   private reloadPriorities(): void {
@@ -97,7 +100,14 @@ export class MainPageComponent implements AfterViewChecked, AfterViewInit {
 
   private reloadCategories(): void {
     this.serviceWrapper.categoryService.findAll().subscribe(categories => {
-      this.categories = [...categories];
+
+      this.serviceWrapper.goalService.getStat().subscribe(stat => {
+        //this.stat = stat;
+        let commonCategoryStat = stat;
+        let commonCategory = new Category(0, "All", "#fff", commonCategoryStat.completedGoals, commonCategoryStat.uncompletedGoals, commonCategoryStat.totalGoals);
+        this.categories = [commonCategory, ...categories];
+      });
+
     });
   }
 
@@ -112,21 +122,46 @@ export class MainPageComponent implements AfterViewChecked, AfterViewInit {
     });
   }
 
-  private reloadStat(): void {
-    this.serviceWrapper.goalService.getStat().subscribe(stat => {
-      this.stat = stat;
-      setTimeout(() => {
-        myFunc();
-      }, 250)
+  /*  private reloadStat(): void {
+      this.serviceWrapper.goalService.getStat().subscribe(stat => {
+        this.stat = stat;
 
-    });
-  }
+
+        /!*      setTimeout(() => {
+                myFunc();
+              }, 500)*!/
+
+      });
+    }*/
 
   ngAfterViewInit(): void {
-    this.reloadStat();
+    /*    this.reloadStat();*/
   }
 
-  ngAfterViewChecked() {
-    /*        myFunc();*/
-  }
+
+  /*  line?: any;
+
+    test() {
+
+
+
+      this.categoryDivs.forEach(div => {
+        let opt = new DrawingOptions();
+        opt.color = '#4c6ef8';
+        opt.strokeWidth = 5;
+        opt.trailWidth = 1;
+        opt.easing = 'easeInOut';
+        opt.duration = 1400;
+        opt.text = {autoStyleContainer: false};
+
+
+
+        if (!this.line) {
+          this.line = new Line(div, opt);
+        }
+
+        this.line.setText(50 + "%");
+        this.line.animate(0.5);
+      });
+    }*/
 }

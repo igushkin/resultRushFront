@@ -14,13 +14,19 @@
 
         <div class="col-12">
           <div class="card_box position-relative  mb_30 white_bg ">
+
+
             <div class="mail-contents">
+
               <div style="display: flex; justify-content:space-between;">
                 <div class="mail-contents-subject">
-                  <input type="checkbox" name="msg" id="mail20" class="mail-choice" [checked]="goal?.isCompleted"
-                         disabled>
-                  <label for="mail20"></label>
-                  <div class="mail-contents-title">{{goal?.title}}</div>
+                  <!--                      <input type="checkbox" name="msg" id="mail20" class="mail-choice" [checked]="goal?.isCompleted"
+                                               disabled>
+                                        <label for="mail20"></label>-->
+                  <div #myname id="container"
+                       [attr.data-percent]="getTotalGoals() >0 ? getCompletedGoals()/getTotalGoals() : 0"></div>
+                  <div class=" mail-contents-title
+                  ">{{goal?.title}}</div>
                 </div>
                 <div class="mail-icons">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -78,17 +84,17 @@
                 </div>
                 <div class="mail-assign">
                   <div class="assignee">
-                    <strong>Category: </strong> {{goal?.category?.title}}
+                    <strong>Category: </strong> {{goal?.category?.title ? goal?.category?.title : "No category"}}
                   </div>
                   <div class="assignee">
-                    <strong>Priority: </strong> {{goal?.priority?.title}}
+                    <strong>Priority: </strong> {{goal?.priority?.title ? goal?.priority?.title : "No priority" }}
                   </div>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
-
         <div class="col-12">
           <div class="col-lg-12">
             <div class="white_card card_height_100 mb_30 QA_section">

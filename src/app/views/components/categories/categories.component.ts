@@ -1,12 +1,23 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  QueryList,
+  ViewChildren
+} from '@angular/core';
 import {Category} from "../../../model/Category";
 import {DataHandlerService} from "../../../service/data-handler.service";
-import {CategoryStat} from "../../../model/CategoryStat";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../../dialog/confirm-dialog/confirm-dialog.component";
 import {
   CategoryEditDialogComponent
 } from "../../../dialog/edit-dialog/category-edit-dialog/category-edit-dialog.component";
+import {DrawingOptions} from "../../../model/DrawingOptions";
+import {Line} from "progressbar.js";
 
 @Component({
   selector: 'app-categories',
@@ -14,20 +25,18 @@ import {
   styleUrls: ['./categories.component.css']
 })
 
-export class CategoriesComponent implements OnInit {
+export class CategoriesComponent implements OnInit, AfterViewInit {
   categories: Category[];
-  categoriesStat: CategoryStat;
   mainColor: string = "#4c6ef8";
+
+  //@ts-ignore
+  @ViewChildren('barfiller') categoryDivs: QueryList<ElementRef<HTMLDivElement>>;
 
   @Input('categories')
   set setCategories(categories: Category[]) {
     this.categories = categories;
   }
 
-  @Input('categoriesStat')
-  set setCategoriesStat(categoriesStat: CategoryStat) {
-    this.categoriesStat = categoriesStat;
-  }
 
   @Output()
   updateCategory = new EventEmitter<Category>();
@@ -36,7 +45,6 @@ export class CategoriesComponent implements OnInit {
 
   constructor(public dataHandler: DataHandlerService, private dialog: MatDialog) {
     this.categories = [];
-    this.categoriesStat = new CategoryStat(0, 0, 0);
   }
 
   ngOnInit(): void {
@@ -52,7 +60,7 @@ export class CategoriesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+
 
       if (result as Category) {
         this.updateCategory.emit(category);
@@ -79,5 +87,44 @@ export class CategoriesComponent implements OnInit {
         return;
       }
     });
+  }
+
+  ngAfterViewInit() {
+    /*    setTimeout(() => {
+            this.drawProgressLines();
+          },
+          250);*/
+
+    this.categoryDivs.changes.subscribe(c => {
+      //@ts-ignore
+      c.toArray().forEach(item => {
+        let div = item as HTMLDivElement;
+        this.drawProgressLine(item as ElementRef<HTMLDivElement>);
+      })
+    });
+  }
+
+
+  private drawProgressLine(div: ElementRef<HTMLDivElement>) {
+    let opt = new DrawingOptions();
+    opt.color = '#4c6ef8';
+    opt.trailColor = '#f8f9ff';
+    opt.strokeWidth = 2;
+    opt.trailWidth = 2;
+    opt.easing = 'easeInOut';
+    opt.duration = 1400;
+    opt.text = {autoStyleContainer: false};
+
+    // @ts-ignore
+    let categoryId = Number.parseInt(div.nativeElement.getAttribute('data-id'));
+    // @ts-ignore
+    let completedGoals = Number.parseInt(div.nativeElement.getAttribute("data-completed-goals"));
+    // @ts-ignore
+    let totalGoals = Number.parseInt(div.nativeElement.getAttribute("data-total-goals"));
+
+    let line = new Line(div.nativeElement, opt);
+
+    line.setText(totalGoals == 0 ? "0%" : (completedGoals * 100 / totalGoals) + "%");
+    line.animate(totalGoals == 0 ? 0 : completedGoals / totalGoals);
   }
 }

@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import 'simplebar';
+import 'progressbar.js';
 
 import {AppComponent} from './app.component';
 import {SidebarComponent} from './views/components/sidebar/sidebar.component';
@@ -31,12 +32,15 @@ import {HeaderComponent} from "./views/components/header/header.component";
 import {AppRoutingModule} from './app-routing.module';
 import {MainPageComponent} from './views/pages/main-page/main-page.component';
 import {GoalPageComponent} from './views/pages/goal-page/goal-page.component';
+import {LoginPageComponent} from './views/pages/login-page/login-page.component';
 import {MilestoneEditDialogComponent} from './dialog/edit-dialog/milestone-edit-dialog/milestone-edit-dialog.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {CATEGORY_URL_TOKEN} from "./service/impl/CategoryServiceImpl";
 import {PRIORITY_URL_TOKEN} from "./service/impl/PriorityServiceImpl";
 import {GOAL_URL_TOKEN} from "./service/impl/GoalServiceImpl";
 import {MILESTONE_URL_TOKEN} from "./service/impl/MilestoneServiceImpl";
+import {MyHttpInterceptor} from "./interceptor/my-http-interceptor.service";
+import {LOGIN_URL_TOKEN, REGISTER_URL_TOKEN, TOKEN_KEY} from "./service/impl/AuthService";
 
 
 @NgModule({
@@ -54,7 +58,8 @@ import {MILESTONE_URL_TOKEN} from "./service/impl/MilestoneServiceImpl";
     PriorityEditDialogComponent,
     MainPageComponent,
     GoalPageComponent,
-    MilestoneEditDialogComponent
+    MilestoneEditDialogComponent,
+    LoginPageComponent
   ],
   imports: [
     BrowserModule,
@@ -84,19 +89,40 @@ import {MILESTONE_URL_TOKEN} from "./service/impl/MilestoneServiceImpl";
     },
     {
       provide: CATEGORY_URL_TOKEN,
+      //useValue: 'https://resultrush.azurewebsites.net/categories'
       useValue: 'http://localhost:8080/categories'
     },
     {
       provide: GOAL_URL_TOKEN,
+      //useValue: 'https://resultrush.azurewebsites.net/goals'
       useValue: 'http://localhost:8080/goals'
     },
     {
       provide: PRIORITY_URL_TOKEN,
+      //useValue: 'https://resultrush.azurewebsites.net/priorities'
       useValue: 'http://localhost:8080/priorities'
     },
     {
       provide: MILESTONE_URL_TOKEN,
+      //useValue: 'https://resultrush.azurewebsites.net/milestones'
       useValue: 'http://localhost:8080/milestones'
+    },
+    {
+      provide: REGISTER_URL_TOKEN,
+      //useValue: 'https://resultrush.azurewebsites.net/register'
+      useValue: 'http://localhost:8080/register'
+    },
+    {
+      provide: LOGIN_URL_TOKEN,
+      //useValue: 'https://resultrush.azurewebsites.net/login'
+      useValue: 'http://localhost:8080/login'
+    },
+    {
+      provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true
+    },
+    {
+      provide: TOKEN_KEY,
+      useValue: 'tokenKey'
     }
   ],
   bootstrap: [AppComponent]

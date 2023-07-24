@@ -15,13 +15,17 @@
     <div class="container">
       <h1>Carousel <small>Bootstrap Visual Test</small></h1>
 
-      <p>The transition duration should be around 2s. Also, the carousel shouldn't slide when its window/tab is hidden. Check the console log.</p>
+      <p>The transition duration should be around 2s. Also, the carousel shouldn't slide when its window/tab is hidden.
+        Check the
 
       <div id="carousel-example-generic" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
-          <button type="button" data-bs-target="#carousel-example-generic" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carousel-example-generic" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carousel-example-generic" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          <button type="button" data-bs-target="#carousel-example-generic" data-bs-slide-to="0" class="active"
+                  aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carousel-example-generic" data-bs-slide-to="1"
+                  aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carousel-example-generic" data-bs-slide-to="2"
+                  aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
           <div class="carousel-item active">
@@ -55,7 +59,7 @@
       // Test to show that transition-duration can be changed with css
       carousel.addEventListener('slid.bs.carousel', event => {
         t1 = performance.now()
-        console.log('transition-duration took ' + (t1 - t0) + 'ms, slid at ' + event.timeStamp)
+
       })
       carousel.addEventListener('slide.bs.carousel', () => {
         t0 = performance.now()

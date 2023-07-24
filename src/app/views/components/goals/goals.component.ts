@@ -52,12 +52,12 @@ export class GoalsComponent implements OnInit, AfterViewInit {
   set setCategories(categories: Category[]) {
     this.categories = categories;
 
-    if (this.editDialogRef) {
+/*    if (this.editDialogRef) {
       this.editDialogRef.componentInstance.categories = categories;
     }
     if (this.addDialogRef) {
       this.addDialogRef.componentInstance.categories = categories;
-    }
+    }*/
   }
 
   @Input('priorities')
@@ -69,7 +69,6 @@ export class GoalsComponent implements OnInit, AfterViewInit {
     return this.goalsF;
   }
 
-
   constructor(private dataHandler: DataHandlerService, private dialog: MatDialog) {
     this.dataSource = new MatTableDataSource();
     this.goalsF = [];
@@ -78,7 +77,6 @@ export class GoalsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-
     this.fillTable();
   }
 
@@ -86,7 +84,6 @@ export class GoalsComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort == null ? null : this.sort;
     this.dataSource.paginator = this.paginator == null ? null : this.paginator;
   }
-
 
   fillTable(): void {
 
@@ -98,11 +95,8 @@ export class GoalsComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort == null ? null : this.sort;
     this.dataSource.paginator = this.paginator == null ? null : this.paginator;
 
-
     //@ts-ignore
     this.dataSource.sortingDataAccessor = (goal, colName) => {
-
-
       switch (colName) {
         case 'priority': {
           return goal.priority ? goal.priority.title : null;
@@ -160,7 +154,6 @@ export class GoalsComponent implements OnInit, AfterViewInit {
     });
   }
 
-
   openDeleteDialog(goal: Goal) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
@@ -182,7 +175,6 @@ export class GoalsComponent implements OnInit, AfterViewInit {
     goal.isCompleted = !goal.isCompleted;
     this.updateGoal.emit(goal);
   }
-
 
   onSelectCategory(category: Category) {
     this.selectCategory.emit(category);
