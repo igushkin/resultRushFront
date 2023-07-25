@@ -13,7 +13,6 @@ export class TestData {
     {id: 3, title: 'Высокий'}
   ];
 
-
   static goals: Goal[] = [
     {
       id: 1,
