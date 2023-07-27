@@ -15,8 +15,13 @@ export class LoginPageComponent {
   constructor(private authService: AuthService) {
   }
 
-  onConfirm() {
+  onRegister() {
     let loginRequest = new LoginRequest(this.tmpLogin, this.tmpPassword);
     this.authService.register(loginRequest);
+  }
+
+  onLogin() {
+    let loginRequest = new LoginRequest(this.tmpLogin, this.tmpPassword);
+    this.authService.login(loginRequest);
   }
 }

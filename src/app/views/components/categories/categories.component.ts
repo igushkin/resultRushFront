@@ -106,8 +106,18 @@ export class CategoriesComponent implements OnInit, AfterViewInit {
 
 
   private drawProgressLine(div: ElementRef<HTMLDivElement>) {
+    // @ts-ignore
+    let categoryId = Number.parseInt(div.nativeElement.getAttribute('data-id'));
+    // @ts-ignore
+    let completedGoals = Number.parseInt(div.nativeElement.getAttribute("data-completed-goals"));
+    // @ts-ignore
+    let totalGoals = Number.parseInt(div.nativeElement.getAttribute("data-total-goals"));
+    // @ts-ignore
+    let color = div.nativeElement.getAttribute("data-color");
+
     let opt = new DrawingOptions();
-    opt.color = '#4c6ef8';
+    // @ts-ignore
+    opt.color = color;
     opt.trailColor = '#f8f9ff';
     opt.strokeWidth = 2;
     opt.trailWidth = 2;
@@ -115,16 +125,11 @@ export class CategoriesComponent implements OnInit, AfterViewInit {
     opt.duration = 1400;
     opt.text = {autoStyleContainer: false};
 
-    // @ts-ignore
-    let categoryId = Number.parseInt(div.nativeElement.getAttribute('data-id'));
-    // @ts-ignore
-    let completedGoals = Number.parseInt(div.nativeElement.getAttribute("data-completed-goals"));
-    // @ts-ignore
-    let totalGoals = Number.parseInt(div.nativeElement.getAttribute("data-total-goals"));
-
     let line = new Line(div.nativeElement, opt);
 
-    line.setText(totalGoals == 0 ? "0%" : (completedGoals * 100 / totalGoals) + "%");
-    line.animate(totalGoals == 0 ? 0 : completedGoals / totalGoals);
+    let progressPercent = totalGoals == 0 ? 0 : completedGoals / totalGoals;
+    console.log(color);
+    line.setText(Math.round(progressPercent * 100) + "%");
+    line.animate(progressPercent);
   }
 }

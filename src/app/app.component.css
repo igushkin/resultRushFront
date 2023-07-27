@@ -106,3 +106,11 @@ textarea::placeholder {
   margin-bottom: 10px;
   border-radius: 30px;
 }
+
+.barfiller svg {
+  border-radius: 15px;
+}
+
+.barfiller > div {
+  margin-top: 17px !important;
+}

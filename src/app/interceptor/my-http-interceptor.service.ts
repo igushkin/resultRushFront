@@ -23,6 +23,8 @@ export class MyHttpInterceptor implements HttpInterceptor {
       });
     }
 
+    console.log(request.url);
+
     return next.handle(request).pipe(
       tap({
         next: (event) => {
@@ -36,7 +38,7 @@ export class MyHttpInterceptor implements HttpInterceptor {
         },
         error: (error) => {
           if (error.status === 401) {
-            alert(error);
+            /*            alert(error);*/
             this.router.navigateByUrl('/login');
           } else if (error.status === 404) {
             alert('Page Not Found!');

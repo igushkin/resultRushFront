@@ -1,3 +1,4 @@
+<!--
 <div class="container">
   <div class="row">
     <div class="col-12">
@@ -31,9 +32,42 @@
 
       <button
         class="btn btn-primary"
-        (click)="onConfirm()" [disabled]="tmpLogin.trim().length==0 || tmpLogin.trim().length == 0">
+        (click)="onRegister()" [disabled]="tmpLogin.trim().length==0 || tmpLogin.trim().length == 0">
         Save
       </button>
+    </div>
+  </div>
+</div>
+-->
+
+
+<div class="container-fluid login-container">
+  <div class="row">
+    <div class="col-12">
+      <div class="main">
+        <input type="checkbox" id="chk" aria-hidden="true">
+
+        <div class="signup">
+          <form>
+            <label for="chk" aria-hidden="true">Sign up</label>
+            <input type="text" name="txt" placeholder="User name" required="true" matInput [(ngModel)]="tmpLogin">
+            <input type="password" name="pswd" placeholder="Password" required="true" [(ngModel)]="tmpPassword">
+            <button (click)="onRegister()" [disabled]="tmpLogin.trim().length==0 || tmpLogin.trim().length == 0">Sign
+              up
+            </button>
+          </form>
+        </div>
+
+        <div class="login">
+          <form>
+            <label for="chk" aria-hidden="true">Login</label>
+            <input type="text" name="txt" placeholder="User name" required="true" matInput [(ngModel)]="tmpLogin">
+            <input type="password" name="pswd" placeholder="Password" required="true" [(ngModel)]="tmpPassword">
+            <button (click)="onLogin()" [disabled]="tmpLogin.trim().length==0 || tmpLogin.trim().length == 0">Login
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </div>

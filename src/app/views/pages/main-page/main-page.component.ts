@@ -55,6 +55,8 @@ export class MainPageComponent implements AfterViewInit {
   }
 
   onUpdateCategory(category: Category) {
+    console.log("From main page------");
+    console.log(category);
     this.serviceWrapper.categoryService.update(category).subscribe(category => {
       this.fullReload();
     });
@@ -104,7 +106,7 @@ export class MainPageComponent implements AfterViewInit {
       this.serviceWrapper.goalService.getStat().subscribe(stat => {
         //this.stat = stat;
         let commonCategoryStat = stat;
-        let commonCategory = new Category(0, "All", "#fff", commonCategoryStat.completedGoals, commonCategoryStat.uncompletedGoals, commonCategoryStat.totalGoals);
+        let commonCategory = new Category(0, "All", "#4c6ef8", commonCategoryStat.completedGoals, commonCategoryStat.uncompletedGoals, commonCategoryStat.totalGoals);
         this.categories = [commonCategory, ...categories];
       });
 

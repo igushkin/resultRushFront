@@ -68,7 +68,11 @@ export class HeaderComponent {
     this.categoryDialog = dialogRef.componentInstance;
 
     this.categoryDialog.addCategory.subscribe(category => this.addCategory.emit(category));
-    this.categoryDialog.updateCategory.subscribe(category => this.updateCategory.emit(category));
+    this.categoryDialog.updateCategory.subscribe(category => {
+      //console.log("From header----------");
+      //console.log(category);
+      this.updateCategory.emit(category)
+    });
     this.categoryDialog.deleteCategory.subscribe(category => this.deleteCategory.emit(category));
     this.categoryDialog.categories = this.categories;
   }
