@@ -9,5 +9,6 @@ import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/co
 })
 
 export class AppComponent {
-
+  events: string[] = [];
+  opened: boolean = true;
 }

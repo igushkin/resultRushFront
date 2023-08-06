@@ -4,30 +4,6 @@
       <div class="row">
         <div class="col-12">
           <div class="quick_activity_wrap">
-
-<!--            <div class="single_quick_activity">
-              <div class="count_content">
-                &lt;!&ndash;<p>All</p>&ndash;&gt;
-
-                <div class="box_header" style="margin-bottom: 15px;">
-                  <div class="main-title">
-                    <p class="m-0">All</p>
-                  </div>
-                </div>
-                <h3><span class="counter">{{categoriesStat.totalGoals}}</span> Goals</h3>
-              </div>
-              <div #barfiller class="barfiller" id="bar1" data-id="0" [attr.data-color]="mainColor" [attr.data-total-goals]="categoriesStat.totalGoals" [attr.data-completed-goals]="categoriesStat.completedGoals"
-                   style="position:relative;">
-                &lt;!&ndash;                <div class="tipWrap">
-                                  <span class="tip"></span>
-                                </div>
-                                <span class="fill"
-                                      [attr.data-percentage]="categoriesStat.totalGoals == 0 ? 0 : ((categoriesStat.completedGoals / categoriesStat.totalGoals ) * 100 | number:'1.0-0')"
-                                      [attr.data-color]="mainColor"
-                                ></span>&ndash;&gt;
-              </div>
-            </div>-->
-
             <div *ngFor="let category of categories; let index = index;" class="single_quick_activity">
               <div class="count_content">
                 <div class="box_header" style="margin-bottom: 15px;">
@@ -42,13 +18,6 @@
               <div #barfiller class="barfiller" [attr.data-id]="category.id" [attr.data-color]="category.color"
                    [attr.data-total-goals]="category.totalGoals" [attr.data-completed-goals]="category.completedGoals"
                    style="position:relative;">
-                <!--                <div class="tipWrap">
-                                  <span class="tip"></span>
-                                </div>
-                                <span class="fill"
-                                      [attr.data-percentage]="category.totalGoals==0 ?  0: ((category.completedGoals / category.totalGoals ) * 100 | number:'1.0-0')">
-
-                                </span>-->
               </div>
             </div>
           </div>

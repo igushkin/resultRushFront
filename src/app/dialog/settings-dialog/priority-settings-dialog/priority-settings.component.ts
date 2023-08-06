@@ -36,9 +36,7 @@ export class PrioritySettingsComponent implements OnInit {
 
   ngOnInit() {
 
-
   }
-
 
   onClose() {
     this.dialogRef.close(false);

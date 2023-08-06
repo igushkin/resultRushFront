@@ -66,10 +66,7 @@ export class GoalEditDialogComponent implements OnInit {
 
   }
 
-
   onConfirm(): void {
-
-
     if (this.originalGoal === null) {
       return;
     }
@@ -82,36 +79,13 @@ export class GoalEditDialogComponent implements OnInit {
     this.dialogRef.close(this.originalGoal);
   }
 
-
   onCancel(): void {
     this.dialogRef.close(null);
   }
 
-
-  /*delete() {
-
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: {
-        dialogTitle: 'Are you sure?',
-        message: `Вы действительно хотите удалить задачу: "${this.originalGoal.title}"?`
-      },
-      autoFocus: false,
-      width: '500px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.dialogRef.close('delete');
-      }
-    });
-  }*/
-
-
   complete() {
     this.dialogRef.close('complete');
-
   }
-
 
   activate() {
     this.dialogRef.close('activate');

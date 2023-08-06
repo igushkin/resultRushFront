@@ -26,12 +26,10 @@ export class PriorityEditDialogComponent implements OnInit {
 
   }
 
-
   onConfirm(): void {
     this.originalPriority.title = this.tmpTitle;
     this.dialogRef.close(this.originalPriority);
   }
-
 
   onCancel(): void {
     this.dialogRef.close(false);

@@ -33,11 +33,11 @@ export class CategoryEditDialogComponent implements OnInit {
 
 
   onConfirm(): void {
-    //console.log(this.tmpTitle);
-    //console.log(this.tmpColor);
+
+
     this.origianlCategory.title = this.tmpTitle;
     this.origianlCategory.color = this.tmpColor;
-    //console.log(this.origianlCategory);
+
     this.dialogRef.close(this.origianlCategory);
   }
 

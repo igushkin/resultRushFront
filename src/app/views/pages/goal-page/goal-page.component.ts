@@ -10,6 +10,9 @@ import {
 import {ServiceWrapper} from "../../../service/ServiceWrapper";
 import {Circle} from "progressbar.js";
 import {DrawingOptions} from "../../../model/DrawingOptions";
+import {SessionStorageService} from "../../../service/impl/session-storage.service";
+import {Category} from "../../../model/Category";
+import {Priority} from "../../../model/Priority";
 
 
 @Component({
@@ -26,9 +29,15 @@ export class GoalPageComponent implements OnInit, AfterViewInit {
   milestoneDialog?: MilestoneEditDialogComponent;
   tmpDescription?: string;
   descriptionPlceholder: string = "Writing down your goals helps you to clarify exactly what you want to achieve, which helps guide your daily actions towards goal achievement. Written down goals are more powerful than goals you keep in your mind 🙌🏻.";
+  opened: boolean;
+  goals: Goal[] = [];
+  categories: Category[] = [];
+  priorities: Priority[] = [];
 
-  constructor(private serviceWrapper: ServiceWrapper, private route: ActivatedRoute, private dialog: MatDialog) {
+  constructor(private serviceWrapper: ServiceWrapper, private route: ActivatedRoute, private dialog: MatDialog, private sessionStorageService: SessionStorageService) {
     this.milestones = [];
+    this.opened = sessionStorageService.sidebarOpened;
+    this.fullReload();
   }
 
   ngOnInit(): void {
@@ -173,7 +182,7 @@ export class GoalPageComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    /*    this.drawProgressCircle();*/
+
   }
 
   private drawProgressCircle() {
@@ -190,5 +199,83 @@ export class GoalPageComponent implements OnInit, AfterViewInit {
 
     this.circle.setText(this.getTotalGoals() == 0 ? "0%" : (this.getCompletedGoals() * 100 / this.getTotalGoals()) + "%");
     this.circle.animate(this.getTotalGoals() == 0 ? 0 : (this.getCompletedGoals() / this.getTotalGoals()));
+  }
+
+  changeSidebarStatus($event: boolean) {
+    this.opened = $event;
+    this.sessionStorageService.sidebarOpened = $event;
+  }
+
+
+  onAddCategory(category: Category) {
+    this.serviceWrapper.categoryService.add(category).subscribe(category => {
+      this.fullReload();
+    })
+  }
+
+  onUpdateCategory(category: Category) {
+    this.serviceWrapper.categoryService.update(category).subscribe(category => {
+      this.fullReload();
+    });
+  }
+
+  onDeleteCategory(category: Category) {
+    this.serviceWrapper.categoryService.delete(category.id).subscribe(category => {
+      this.fullReload();
+    });
+  }
+
+
+  onAddPriority(priority: Priority) {
+    this.serviceWrapper.priorityService.add(priority).subscribe(priority => {
+      this.fullReload();
+    })
+  }
+
+  onUpdatePriority(priority: Priority) {
+    this.serviceWrapper.priorityService.update(priority).subscribe(priority => {
+      this.fullReload();
+    });
+  }
+
+  onDeletePriority(priority: Priority) {
+    this.serviceWrapper.priorityService.delete(priority.id).subscribe(priority => {
+      this.fullReload();
+    });
+  }
+
+  private fullReload() {
+    this.reloadPriorities();
+    this.reloadGoals();
+    this.reloadCategories();
+    this.reloadGoal();
+
+  }
+
+  private reloadPriorities(): void {
+    this.serviceWrapper.priorityService.findAll().subscribe(priorities => {
+      this.priorities = priorities;
+    });
+  }
+
+  private reloadCategories(): void {
+    this.serviceWrapper.categoryService.findAll().subscribe(categories => {
+      this.categories = [...categories];
+    });
+  }
+
+  private reloadGoal() {
+    if (!this.goal) {
+      return;
+    }
+    this.serviceWrapper.goalService.findById(this.goal?.id).subscribe(goal => {
+      this.goal = goal;
+    })
+  }
+
+  private reloadGoals(): void {
+    this.serviceWrapper.goalService.findAll().subscribe(goals => {
+      this.goals = [...goals];
+    });
   }
 }

@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Goal} from "../../../model/Goal";
 import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {Category} from "../../../model/Category";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
@@ -28,12 +28,32 @@ export class GoalsComponent implements OnInit, AfterViewInit {
   addGoal = new EventEmitter<Goal>();
 
   dataSource: MatTableDataSource<Goal>;
-
-
   displayedColumns: string[] = ['#', 'title', 'category', 'priority', 'deadline', 'progress', 'status', 'edit', 'delete'];
 
-  @ViewChild(MatPaginator, {static: false}) paginator?: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort?: MatSort;
+  @ViewChild(MatSort, {static: false}) set content(sort: MatSort) {
+    this.dataSource.sort = sort;
+
+    this.dataSource.sortingDataAccessor = (row: Goal, columnName: string): string => {
+
+      switch (columnName) {
+        case "title": {
+          return row.title;
+        }
+        case "category": {
+          return row.category ? row.category.title : "";
+        }
+        case "priority": {
+          return row.priority ? row.priority.title : "";
+        }
+        case "deadline": {
+          return row.deadline ? row.deadline.toISOString() : "";
+        }
+        default: {
+          return row.id + "";
+        }
+      }
+    }
+  }
 
   private goalsF: Goal[];
   private categories: Category[];
@@ -51,13 +71,6 @@ export class GoalsComponent implements OnInit, AfterViewInit {
   @Input('categories')
   set setCategories(categories: Category[]) {
     this.categories = categories;
-
-/*    if (this.editDialogRef) {
-      this.editDialogRef.componentInstance.categories = categories;
-    }
-    if (this.addDialogRef) {
-      this.addDialogRef.componentInstance.categories = categories;
-    }*/
   }
 
   @Input('priorities')
@@ -77,44 +90,15 @@ export class GoalsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.fillTable();
+
   }
 
   ngAfterViewInit() {
-    this.dataSource.sort = this.sort == null ? null : this.sort;
-    this.dataSource.paginator = this.paginator == null ? null : this.paginator;
+    this.fillTable();
   }
 
   fillTable(): void {
-
-    if (!this.dataSource) {
-      return;
-    }
-
     this.dataSource.data = this.goalsF;
-    this.dataSource.sort = this.sort == null ? null : this.sort;
-    this.dataSource.paginator = this.paginator == null ? null : this.paginator;
-
-    //@ts-ignore
-    this.dataSource.sortingDataAccessor = (goal, colName) => {
-      switch (colName) {
-        case 'priority': {
-          return goal.priority ? goal.priority.title : null;
-        }
-        case 'category': {
-          return goal.category ? goal.category.title : null;
-        }
-        case 'date': {
-          return goal.deadline ? goal.deadline : null;
-        }
-        case 'title': {
-          return goal.title;
-        }
-        default: {
-          return goal.title;
-        }
-      }
-    };
   }
 
   public openEditGoalDialog(goal: Goal): void {
@@ -169,14 +153,5 @@ export class GoalsComponent implements OnInit, AfterViewInit {
         this.deleteGoal.emit(goal);
       }
     });
-  }
-
-  onToggleStatus(goal: Goal) {
-    goal.isCompleted = !goal.isCompleted;
-    this.updateGoal.emit(goal);
-  }
-
-  onSelectCategory(category: Category) {
-    this.selectCategory.emit(category);
   }
 }

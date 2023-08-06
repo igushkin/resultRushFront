@@ -17,20 +17,19 @@
     </li>
     <li>
       <a [routerLink]="['/login']">
-
         <div class="icon_menu">
-          <img alt src="assets/images/login.svg">
+          <img alt src="assets/images/register.svg">
         </div>
         <span>Log In</span>
       </a>
     </li>
     <li>
-      <a [routerLink]="['/login']">
+      <a (click)="logout()" class="pointer">
 
         <div class="icon_menu">
-          <img alt src="assets/images/register.svg">
+          <img alt src="assets/images/login.svg">
         </div>
-        <span>Sign Up</span>
+        <span>Logout</span>
       </a>
     </li>
   </ul>

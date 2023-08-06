@@ -9,7 +9,6 @@ export class MyHttpInterceptor implements HttpInterceptor {
 
   constructor(@Inject(TOKEN_KEY) private tokenKey: string, private router: Router) {
 
-
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler) {
@@ -22,8 +21,6 @@ export class MyHttpInterceptor implements HttpInterceptor {
         }
       });
     }
-
-    console.log(request.url);
 
     return next.handle(request).pipe(
       tap({
@@ -38,7 +35,7 @@ export class MyHttpInterceptor implements HttpInterceptor {
         },
         error: (error) => {
           if (error.status === 401) {
-            /*            alert(error);*/
+
             this.router.navigateByUrl('/login');
           } else if (error.status === 404) {
             alert('Page Not Found!');

@@ -3,8 +3,11 @@ import {Goal} from "../../../model/Goal";
 import {Category} from "../../../model/Category";
 import {ServiceWrapper} from "../../../service/ServiceWrapper";
 import {Priority} from "../../../model/Priority";
+import {CategoryStat} from "../../../model/CategoryStat";
+import {DeviceDetectorService} from "ngx-device-detector";
+import {SessionStorageService} from "../../../service/impl/session-storage.service";
+import {PageEvent} from "@angular/material/paginator";
 
-declare function myFunc(): void;
 
 @Component({
   selector: 'app-main-page',
@@ -12,26 +15,22 @@ declare function myFunc(): void;
   styleUrls: ['./main-page.component.css']
 })
 
-export class MainPageComponent implements AfterViewInit {
+export class MainPageComponent {
   title = 'ResultRushFrontEnd';
   goals: Goal[] = [];
   categories: Category[] = [];
   priorities: Priority[] = [];
-  /*  stat: CategoryStat;*/
+  commonCategoryStat: CategoryStat = new CategoryStat(0, 0, 0);
+  events: string[] = [];
+  opened: boolean = true;
 
   //@ts-ignore
   @ViewChildren('barfiller', {static: false}) categoryDivs: QueryList<HTMLDivElement>;
 
-  constructor(private serviceWrapper: ServiceWrapper) {
-    /*    this.stat = new CategoryStat(0, 0, 0);*/
-    /*  this.serviceWrapper.goalService.findAll().subscribe(goals => this.goals = goals);
-      this.serviceWrapper.categoryService.findAll().subscribe(categories => this.categories = categories);
-      this.serviceWrapper.priorityService.findAll().subscribe(priorities => {
-        this.priorities = priorities;
-      });
-
-      this.serviceWrapper.goalService.getStat().subscribe(stat => this.stat = stat);*/
+  constructor(private serviceWrapper: ServiceWrapper, private deviceDetector: DeviceDetectorService, private sessionStorageService: SessionStorageService) {
     this.fullReload();
+
+    this.opened = sessionStorageService.sidebarOpened;
   }
 
 
@@ -55,8 +54,6 @@ export class MainPageComponent implements AfterViewInit {
   }
 
   onUpdateCategory(category: Category) {
-    console.log("From main page------");
-    console.log(category);
     this.serviceWrapper.categoryService.update(category).subscribe(category => {
       this.fullReload();
     });
@@ -91,7 +88,7 @@ export class MainPageComponent implements AfterViewInit {
     this.reloadPriorities();
     this.reloadGoals();
     this.reloadCategories();
-    //this.reloadStat()
+
   }
 
   private reloadPriorities(): void {
@@ -104,19 +101,14 @@ export class MainPageComponent implements AfterViewInit {
     this.serviceWrapper.categoryService.findAll().subscribe(categories => {
 
       this.serviceWrapper.goalService.getStat().subscribe(stat => {
-        //this.stat = stat;
+        this.commonCategoryStat = stat;
         let commonCategoryStat = stat;
-        let commonCategory = new Category(0, "All", "#4c6ef8", commonCategoryStat.completedGoals, commonCategoryStat.uncompletedGoals, commonCategoryStat.totalGoals);
-        this.categories = [commonCategory, ...categories];
+        this.categories = [...categories];
       });
 
     });
   }
 
-  /*  private reloadGoalsAndStat(): void {
-      this.reloadGoals();
-      this.reloadStat();
-    }*/
 
   private reloadGoals(): void {
     this.serviceWrapper.goalService.findAll().subscribe(goals => {
@@ -124,46 +116,10 @@ export class MainPageComponent implements AfterViewInit {
     });
   }
 
-  /*  private reloadStat(): void {
-      this.serviceWrapper.goalService.getStat().subscribe(stat => {
-        this.stat = stat;
 
-
-        /!*      setTimeout(() => {
-                myFunc();
-              }, 500)*!/
-
-      });
-    }*/
-
-  ngAfterViewInit(): void {
-    /*    this.reloadStat();*/
+  onUpdateSidebarStatus($event: boolean) {
+    this.opened = $event;
+    this.sessionStorageService.sidebarOpened = this.opened;
   }
 
-
-  /*  line?: any;
-
-    test() {
-
-
-
-      this.categoryDivs.forEach(div => {
-        let opt = new DrawingOptions();
-        opt.color = '#4c6ef8';
-        opt.strokeWidth = 5;
-        opt.trailWidth = 1;
-        opt.easing = 'easeInOut';
-        opt.duration = 1400;
-        opt.text = {autoStyleContainer: false};
-
-
-
-        if (!this.line) {
-          this.line = new Line(div, opt);
-        }
-
-        this.line.setText(50 + "%");
-        this.line.animate(0.5);
-      });
-    }*/
 }

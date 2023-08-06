@@ -6,7 +6,6 @@ import {CommonServiceImpl} from './common/CommonServiceImpl';
 import {Goal} from "../../model/Goal";
 import {CategoryStat} from "../../model/CategoryStat";
 
-
 export const GOAL_URL_TOKEN = new InjectionToken<string>('url');
 
 

@@ -19,6 +19,7 @@ export class HeaderComponent {
   priorities: Priority[];
   private categoryDialog?: CategorySettingsComponent;
   private priorityDialog?: PrioritySettingsComponent;
+  sidebarStatus: boolean = false;
 
   @Output()
   deleteCategory = new EventEmitter<Category>();
@@ -33,6 +34,8 @@ export class HeaderComponent {
   updatePriority = new EventEmitter<Priority>();
   @Output()
   addPriority = new EventEmitter<Priority>();
+  @Output()
+  updateSidebarStatus = new EventEmitter<boolean>();
 
   @Input('categories')
   set setGoals(categories: Category[]) {
@@ -52,6 +55,11 @@ export class HeaderComponent {
     }
   }
 
+  @Input('sidebarStatus')
+  set setSidebarStatus(status: boolean) {
+    this.sidebarStatus = status;
+  }
+
   constructor(private dialog: MatDialog) {
     this.categories = [];
     this.priorities = [];
@@ -69,8 +77,8 @@ export class HeaderComponent {
 
     this.categoryDialog.addCategory.subscribe(category => this.addCategory.emit(category));
     this.categoryDialog.updateCategory.subscribe(category => {
-      //console.log("From header----------");
-      //console.log(category);
+
+
       this.updateCategory.emit(category)
     });
     this.categoryDialog.deleteCategory.subscribe(category => this.deleteCategory.emit(category));
@@ -91,5 +99,10 @@ export class HeaderComponent {
     this.priorityDialog.updatePriority.subscribe(priority => this.updatePriority.emit(priority));
     this.priorityDialog.deletePriority.subscribe(priority => this.deletePriority.emit(priority));
     this.priorityDialog.priorities = this.priorities;
+  }
+
+  changeSidebarStatus() {
+    this.sidebarStatus = !this.sidebarStatus;
+    this.updateSidebarStatus.emit(this.sidebarStatus);
   }
 }

@@ -114,3 +114,81 @@ textarea::placeholder {
 .barfiller > div {
   margin-top: 17px !important;
 }
+
+.main_content {
+  padding-bottom: 0;
+  background-color: #f5f6ff;
+}
+
+body {
+  background-color: #f5f6ff;
+}
+
+.sidebar {
+  position: static;
+  box-shadow: none;
+}
+
+.main_content {
+  padding-left: 0;
+}
+
+.header-icon {
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+  .sidebar {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .box_header {
+    flex-direction: column;
+  }
+
+  .goal-table-wrapper .box_header .add-btn {
+    margin-top: 10px !important;
+    margin-left: 0 !important;
+  }
+
+  .mail {
+    padding-left: 0px !important;
+  }
+
+  .mail-contents-subject {
+    flex-direction: column;
+  }
+
+  .mail-contents-title {
+    margin-bottom: 10px;
+  }
+
+  .chart {
+    justify-content: center !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .sidebar {
+    width: 100%;
+    background: #fff;
+  }
+}
+
+
+.header_iner .serach_field-area {
+  display: block !important;
+}
+
+.header_iner {
+  justify-content: space-between !important;
+}
+
+.mail-contents-title, .mail-contents .mail, .mail-inside textarea {
+  color: #14256a !important;
+
+}

@@ -18,6 +18,7 @@ import {
 } from "../../../dialog/edit-dialog/category-edit-dialog/category-edit-dialog.component";
 import {DrawingOptions} from "../../../model/DrawingOptions";
 import {Line} from "progressbar.js";
+import {CategoryStat} from "../../../model/CategoryStat";
 
 @Component({
   selector: 'app-categories',
@@ -28,13 +29,22 @@ import {Line} from "progressbar.js";
 export class CategoriesComponent implements OnInit, AfterViewInit {
   categories: Category[];
   mainColor: string = "#4c6ef8";
+  commonCategoryStat: CategoryStat = new CategoryStat(0, 0, 0);
 
   //@ts-ignore
   @ViewChildren('barfiller') categoryDivs: QueryList<ElementRef<HTMLDivElement>>;
 
+  @Input('stat')
+  set setStat(commonCategoryStat: CategoryStat) {
+    this.commonCategoryStat = commonCategoryStat;
+  }
+
   @Input('categories')
   set setCategories(categories: Category[]) {
-    this.categories = categories;
+
+    // @ts-ignore
+    let commonCategory = new Category(0, "All", "#4c6ef8", this.commonCategoryStat.completedGoals, this.commonCategoryStat.uncompletedGoals, this.commonCategoryStat.totalGoals);
+    this.categories = [commonCategory, ...categories];
   }
 
 
@@ -90,11 +100,6 @@ export class CategoriesComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    /*    setTimeout(() => {
-            this.drawProgressLines();
-          },
-          250);*/
-
     this.categoryDivs.changes.subscribe(c => {
       //@ts-ignore
       c.toArray().forEach(item => {
@@ -128,7 +133,6 @@ export class CategoriesComponent implements OnInit, AfterViewInit {
     let line = new Line(div.nativeElement, opt);
 
     let progressPercent = totalGoals == 0 ? 0 : completedGoals / totalGoals;
-    console.log(color);
     line.setText(Math.round(progressPercent * 100) + "%");
     line.animate(progressPercent);
   }

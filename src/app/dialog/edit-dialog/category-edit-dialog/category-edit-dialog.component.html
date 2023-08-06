@@ -1,10 +1,5 @@
-<!--создание/редактирование категории-->
-
-
 <mat-dialog-content>
   <p mat-dialog-title>{{dialogTitle}}</p>
-
-
   <mat-form-field>
     <mat-label>Category name (required)</mat-label>
     <input
@@ -26,9 +21,6 @@
   </mat-form-field>
   <span [(colorPicker)]="tmpColor" [style.background]="tmpColor" class="color-circle"></span>
 </mat-dialog-content>
-
-
-<!--  кнопки возможных действий-->
 <mat-dialog-actions>
   <button
     class="btn btn-primary"

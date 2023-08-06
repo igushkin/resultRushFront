@@ -1,175 +1,125 @@
-<div class="QA_table white_card card_height_100 mb_30 goal-table-wrapper">
-  <div class="white_card_header row">
-    <div class="box_header m-0">
-      <div class="main-title">
-        <h3 class="m-0 table-title">Goals</h3>
+<div class="col-lg-12 QA_section">
+  <div class="QA_table white_card card_height_100 mb_30 goal-table-wrapper">
+    <div class="white_card_header row">
+      <div class="box_header m-0">
+        <div class="main-title">
+          <h3 class="m-0 table-title">Goals</h3>
+        </div>
+        <button type="button" class="btn_1 mb-3 add-btn" (click)="openAddGoalDialog()">+ Goal</button>
       </div>
-      <button type="button" class="btn_1 mb-3 add-btn" (click)="openAddGoalDialog()">+ Goal</button>
     </div>
-  </div>
-  <div *ngIf="goals && goals.length > 0" class="white_card_body">
-    <div class="white_box_tittle list_header">
-    </div>
+    <div *ngIf="goals && goals.length > 0" class="white_card_body overflow-auto">
+      <div class="white_box_tittle list_header">
+      </div>
 
-    <table [dataSource]="dataSource" mat-table matSort class="table lms_table_active">
-      <!--['#', 'title', 'category', 'priority', 'deadline', 'progress', 'status'];-->
-      <!--#-->
-      <ng-container matColumnDef="#">
-        <th *matHeaderCellDef mat-header-cell>#</th>
-        <td *matCellDef="let index = index;" class="col-id" mat-cell>
-          {{index + 1}}
-        </td>
-      </ng-container>
+      <table [dataSource]="dataSource" mat-table matSort class="table lms_table_active">
+        <ng-container matColumnDef="#">
+          <th *matHeaderCellDef mat-header-cell>#</th>
+          <td *matCellDef="let index = index;" class="col-id" mat-cell>
+            {{index + 1}}
+          </td>
+        </ng-container>
 
-      <!-- Title -->
-      <ng-container matColumnDef="title">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header> Title</th>
-        <td *matCellDef="let goal"
-            class="col-title pointer"
-            mat-cell
-            [routerLink]="['/goal', goal.id]"
-        >
-          {{goal.title}}
-        </td>
-      </ng-container>
+        <!-- Title -->
+        <ng-container matColumnDef="title">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Title</th>
+          <td *matCellDef="let goal"
+              class="col-title pointer"
+              mat-cell
+              [routerLink]="['/goal', goal.id]"
+          >
+            {{goal.title}}
+          </td>
+        </ng-container>
 
-      <!-- Category -->
-      <ng-container matColumnDef="category">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header> Category</th>
-        <td *matCellDef="let goal"
-            mat-cell
-            [ngClass]="{'no-value': goal.category == null}"
-        >
+        <!-- Category -->
+        <ng-container matColumnDef="category">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Category</th>
+          <td *matCellDef="let goal"
+              mat-cell
+              [ngClass]="{'no-value': goal.category == null}"
+          >
           <span *ngIf="goal.category" class="badge"
                 [ngStyle]="{'background-color': goal.category.color }"> {{goal.category.title}}</span>
-          <span *ngIf="!goal.category">No category</span>
-        </td>
-      </ng-container>
+            <span *ngIf="!goal.category">No category</span>
+          </td>
+        </ng-container>
 
-      <!-- Priority -->
-      <ng-container matColumnDef="priority">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header> Priority</th>
-        <td *matCellDef="let goal" class="col-priority"
-            [ngClass]="{'completed': goal.isCompleted, 'no-value': goal.priority == null}"
-            mat-cell
-        >
-          {{goal.priority ? goal.priority.title : "No priority"}}
-        </td>
-      </ng-container>
+        <!-- Priority -->
+        <ng-container matColumnDef="priority">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Priority</th>
+          <td *matCellDef="let goal" class="col-priority"
+              [ngClass]="{'completed': goal.isCompleted, 'no-value': goal.priority == null}"
+              mat-cell
+          >
+            {{goal.priority ? goal.priority.title : "No priority"}}
+          </td>
+        </ng-container>
 
-      <!-- Deadline -->
-      <ng-container matColumnDef="deadline">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header>Deadline</th>
-        <td *matCellDef="let goal"
-            [ngClass]="{'completed': goal.isCompleted, 'no-value': goal.deadline == null}"
-            class="col-date"
-            mat-cell>
-          {{goal.deadline ? (goal.deadline | date:'shortDate') : "No deadline" }}
-        </td>
-      </ng-container>
+        <!-- Deadline -->
+        <ng-container matColumnDef="deadline">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header>Deadline</th>
+          <td *matCellDef="let goal"
+              [ngClass]="{'completed': goal.isCompleted, 'no-value': goal.deadline == null}"
+              class="col-date"
+              mat-cell>
+            {{goal.deadline ? (goal.deadline | date:'shortDate') : "No deadline" }}
+          </td>
+        </ng-container>
 
-      <!--Progress-->
-      <ng-container matColumnDef="progress">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header> Progress</th>
-        <td *matCellDef="let goal" class="col-priority"
-            mat-cell
-        >
-          {{goal.completedMilestones + ' of ' + (goal.uncompletedMilestones + +goal.completedMilestones)}}
-        </td>
-      </ng-container>
+        <!--Progress-->
+        <ng-container matColumnDef="progress">
+          <th *matHeaderCellDef mat-header-cell> Progress</th>
+          <td *matCellDef="let goal" class="col-priority"
+              mat-cell
+          >
+            {{goal.completedMilestones + ' of ' + (goal.uncompletedMilestones + +goal.completedMilestones)}}
+          </td>
+        </ng-container>
 
-      <!--Status-->
-      <ng-container matColumnDef="status">
-        <th scope="col" *matHeaderCellDef mat-header-cell mat-sort-header> Status</th>
-        <!--(click)="!task.completed && task.category && onSelectCategory(task.category)"-->
-        <td *matCellDef="let goal"
-            mat-cell
-        >
-          {{goal.isCompleted ? 'Completed' : 'In progress'}}
-        </td>
-      </ng-container>
+        <!--Status-->
+        <ng-container matColumnDef="status">
+          <th scope="col" *matHeaderCellDef mat-header-cell mat-sort-header> Status</th>
+          <td *matCellDef="let goal"
+              mat-cell
+          >
+            {{goal.isCompleted ? 'Completed' : 'In progress'}}
+          </td>
+        </ng-container>
 
-      <!--Edit-->
-      <ng-container matColumnDef="edit">
-        <th scope="col" *matHeaderCellDef mat-header-cell mat-sort-header></th>
-        <td (click)="openEditGoalDialog(goal)" *matCellDef="let goal" class="pointer td-edit"
-            mat-cell
-        >
-          <mat-icon>edit</mat-icon>
-        </td>
-      </ng-container>
+        <!--Edit-->
+        <ng-container matColumnDef="edit">
+          <th scope="col" *matHeaderCellDef mat-header-cell></th>
+          <td (click)="openEditGoalDialog(goal)" *matCellDef="let goal" class="pointer td-edit"
+              mat-cell
+          >
+            <mat-icon>edit</mat-icon>
+          </td>
+        </ng-container>
 
-      <!--Delete-->
-      <ng-container matColumnDef="delete">
-        <th scope="col" *matHeaderCellDef mat-header-cell mat-sort-header></th>
-        <td (click)="openDeleteDialog(goal)" *matCellDef="let goal" class="pointer td-delete"
-            mat-cell
-        >
-          <mat-icon>delete</mat-icon>
-        </td>
-      </ng-container>
-
-
-      <!--    &lt;!&ndash;доступные действия над задачей&ndash;&gt;
-          <ng-container matColumnDef="operations">
-            <th *matHeaderCellDef mat-header-cell></th>
-            <td *matCellDef="let goal" [class.completed]="goal.isCompleted" class="col-operations" mat-cell>
-
-              <button (click)="openDeleteDialog(goal)" class="delete-icon"
-                      mat-icon-button
-              >
-                <mat-icon aria-hidden="false">delete</mat-icon>
-              </button>
+        <!--Delete-->
+        <ng-container matColumnDef="delete">
+          <th scope="col" *matHeaderCellDef mat-header-cell></th>
+          <td (click)="openDeleteDialog(goal)" *matCellDef="let goal" class="pointer td-delete"
+              mat-cell
+          >
+            <mat-icon>delete</mat-icon>
+          </td>
+        </ng-container>
 
 
-              <button (click)="openEditGoalDialog(goal)" class="edit-icon"
-                      mat-icon-button
-              >
+        <!-- table headers-->
+        <tr *matHeaderRowDef="displayedColumns; " mat-header-row></tr>
 
-                <mat-icon aria-hidden="false">edit</mat-icon>
-              </button>
+        <!-- table raws) -->
+        <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
 
-            </td>
-          </ng-container>
+      </table>
 
+    </div>
 
-          &lt;!&ndash;            галочка для выполнения/активации задачи&ndash;&gt;
-          <ng-container matColumnDef="select">
-
-            <th *matHeaderCellDef mat-header-cell></th>
-
-            <td *matCellDef="let task" class="col-select text-right" mat-cell>
-
-              <mat-checkbox
-
-                (change)="$event ? onToggleStatus(task) : null"
-
-                (click)="$event.stopPropagation()"
-
-                [checked]="task.completed"
-              >
-
-              </mat-checkbox>
-
-
-            </td>
-          </ng-container>-->
-
-
-      <!--  заголовок таблицы-->
-      <tr *matHeaderRowDef="displayedColumns; " mat-header-row></tr>
-
-      <!--  строки таблицы - набор строк из тегов td (порядок указывается в переменной displayedColumns) -->
-      <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
-
-    </table>
-
-    <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
-
-
-  </div>
-
-  <div *ngIf="goals && goals.length == 0" class="white_card_body">
-    <p class="not-found">Ничего не найдено</p>
+    <div *ngIf="goals && goals.length == 0" class="white_card_body">
+      <p class="not-found">Nothing was found</p>
+    </div>
   </div>
 </div>

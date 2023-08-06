@@ -1,18 +1,6 @@
-body {
-  /*  margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    font-family: 'Jost', sans-serif;*/
-  /*  background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);*/
-}
-
 .main {
   width: 350px;
   height: 500px;
-  /*  background: red;*/
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
@@ -98,7 +86,6 @@ button:hover {
   transform: scale(.6);
 }
 
-
 .login-container {
   margin: 0;
   padding: 0;
@@ -106,7 +93,5 @@ button:hover {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  /*  font-family: 'Jost', sans-serif;*/
-  /*background-image: linear-gradient(to bottom, #4c6ef8, #527af7, #5b86f4, #6691f1, #739bed, #6ba8f2, #68b4f6, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);*/
   background-color: #f8f9fd;
 }
